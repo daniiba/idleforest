@@ -1,6 +1,7 @@
 import Mellowtel from "mellowtel"
 import type { PlasmoCSConfig } from "plasmo"
 
+
 export const config: PlasmoCSConfig = {
   matches: ["<all_urls>"],
   all_frames: true,
@@ -12,7 +13,7 @@ const start = async () => {
     mellowtel = new Mellowtel(process.env.PLASMO_PUBLIC_MELLOWTEL
     );
     
-    const resp = await mellowtel.initContentScript("tabs/pascoli.html", "core/burke.js")
+    const resp = await mellowtel.initContentScript("tabs/pascoli.html", "./burke.js")
     console.log("Mellowtel initialized:", resp)
 
   } catch (error) {

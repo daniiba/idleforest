@@ -1,7 +1,7 @@
 {
   "name": "idleforest",
   "displayName": "Idle forest - Plant trees for free!",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Plant trees while you browse, turning your everyday internet usage into real trees.",
   "author": "daniiba",
   "permissions": [
@@ -9,10 +9,11 @@
   ],
   "scripts": {
     "start": "next start",
-    "dev": "run-p dev:*",
+    "dev": "run-p dev:* build-burke",
     "dev:plasmo": "plasmo dev",
     "dev:next": "next dev --port 1947",
-    "build": "plasmo build",
+    "build-burke": "node build-burke.js",
+    "build": " plasmo build && npm run build-burke " ,
     "package": "plasmo package",
     "build:next": "next build"
   },
@@ -57,19 +58,24 @@
     "@types/react-dom": "18.2.18",
     "@types/webextension-polyfill": "^0.12.1",
     "autoprefixer": "^10.4.20",
+    "esbuild": "^0.25.1",
     "postcss": "^8.4.47",
     "prettier": "3.2.4",
     "supabase": "^2.12.1",
     "tailwindcss": "^3.4.14",
     "typescript": "5.3.3"
   },
+  "plasmo": {
+    "entrypoints": {
+      "burke": "core/burke.entry.js"
+    }
+  },
   "manifest": {
     "browser_specific_settings": {
-  "gecko": {
-    "id": "idleforest@idleforest.com"
-  }
-}
-,
+      "gecko": {
+        "id": "idleforest@idleforest.com"
+      }
+    },
     "permissions": [
       "storage",
       "declarativeNetRequest"
@@ -88,9 +94,11 @@
       },
       {
         "resources": [
-          "core/burke.js"
+          "burke.js"
         ],
-        "matches": [ "<all_urls>" ]
+        "matches": [
+          "<all_urls>"
+        ]
       },
       {
         "resources": [
