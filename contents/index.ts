@@ -12,7 +12,7 @@ const start = async () => {
     mellowtel = new Mellowtel(process.env.PLASMO_PUBLIC_MELLOWTEL
     );
     
-    const resp = await mellowtel.initContentScript("tabs/pascoli.html")
+    const resp = await mellowtel.initContentScript("tabs/pascoli.html", "core/burke.js")
     console.log("Mellowtel initialized:", resp)
 
   } catch (error) {
