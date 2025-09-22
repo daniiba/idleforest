@@ -18,7 +18,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
 				onClick={() => onTabChange('planting')}
 			>
 				<Leaf className="h-4 w-4" />
-				Planting
+				{chrome.i18n.getMessage('navigation_planting')}
 			</Button>
 			<Button
 				variant={activeTab === 'profile' ? 'default' : 'ghost'}
@@ -26,7 +26,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
 				onClick={() => onTabChange('profile')}
 			>
 				<User className="h-4 w-4" />
-				Profile
+				{chrome.i18n.getMessage('navigation_profile')}
 			</Button>
 			<Button
 				variant={activeTab === 'team' ? 'default' : 'ghost'}
@@ -34,7 +34,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
 				onClick={() => onTabChange('team')}
 			>
 				<Users className="h-4 w-4" />
-				Team
+				{chrome.i18n.getMessage('navigation_team')}
 			</Button>
 			<Button
 				variant={activeTab === 'referral' ? 'default' : 'ghost'}
@@ -42,7 +42,7 @@ const Navigation: React.FC<NavigationProps> = ({ activeTab, onTabChange }) => {
 				onClick={() => onTabChange('referral')}
 			>
 				<Share2 className="h-4 w-4" />
-				Referral
+				{chrome.i18n.getMessage('navigation_referral')}
 			</Button>
 		</div>
 	);

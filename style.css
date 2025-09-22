@@ -4,6 +4,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Register CanduRounded font from extension assets */
+@font-face {
+  font-family: 'CanduRounded';
+  src: url('./assets/CanduRounded.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -79,5 +88,8 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  h1, h2, h3, .heading-candu {
+    @apply font-candu;
   }
 }

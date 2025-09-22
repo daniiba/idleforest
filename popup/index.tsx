@@ -14,13 +14,13 @@ const queryClient = new QueryClient({
 });
 
 function IndexPopup() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <IdleForestPopup />
-      </AuthProvider>
-    </QueryClientProvider>
-  )
+    return (
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <IdleForestPopup />
+        </AuthProvider>
+      </QueryClientProvider>
+    )
 }
 
 export default IndexPopup

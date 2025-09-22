@@ -18,6 +18,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ["Inter var", "Inter", ...fontFamily.sans],
+        candu: ["CanduRounded", ...fontFamily.sans],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -53,6 +54,10 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Brand colors
+        "brand-yellow": "#E0F146",
+        "brand-grey": "#D9D9D9",
+        "brand-darkblue": "#0B101F",
       },
       borderRadius: {
         lg: `var(--radius)`,

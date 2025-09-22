@@ -1,56 +1,58 @@
-import React from 'react';
-import Lottie from 'react-lottie-player';
+import React, { useEffect, useRef } from 'react';
 import { Sprout } from 'lucide-react';
-import plantAnimation from '../assets/plant.json';
-import { motion } from 'framer-motion';
+import unionMask from 'url:~assets/Union.svg';
+import seedlingVideo from 'url:~assets/7654892-hd_1080_1920_25fps.mp4';
 
 
 
 
 export const MellowtelAnimation: React.FC<any> = ({ isActive }) => {
-  if (!isActive) {
-    return (
-      <div className="flex flex-col items-center justify-center p-8 text-gray-400">
-        <Sprout className="w-16 h-16 mb-4" />
-        <p className="text-center">Idleforest is inactive. Enable it to start growing your forest!</p>
-      </div>
-    );
-  }
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    if (isActive) {
+      v.play().catch(() => {
+        // ignore autoplay restrictions
+      });
+    } else {
+      v.pause();
+      v.currentTime = 0; // optional: reset to the start for a clean poster-like look
+    }
+  }, [isActive]);
 
   return (
-    <div className="relative w-full h-[300px] flex items-center justify-center overflow-hidden">
-      
-      <Lottie
-        loop
-        animationData={plantAnimation}
-        play
-        style={{ width: 200, height: 200 }}
-      />
-      
-      <div className="absolute bottom-8 text-center text-green-700 font-medium">
-        Growing seeds while you browse...
-      </div>
-      {[...Array(6)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-2 h-2 bg-green-200 rounded-full"
-          initial={{ 
-            x: Math.random() * 200 - 100,
-            y: 150,
-            opacity: 0 
-          }}
-          animate={{
-            y: -150,
-            opacity: [0, 1, 0],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            delay: i * 0.5,
-            ease: "easeOut"
+    <div className="w-full flex flex-col items-center justify-center">
+      <div className="relative w-full h-[300px] flex items-center justify-center">
+        <video
+          ref={videoRef}
+          src={seedlingVideo}
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+          style={{
+            WebkitMaskImage: `url(${unionMask})`,
+            maskImage: `url(${unionMask})`,
+            WebkitMaskRepeat: 'no-repeat',
+            maskRepeat: 'no-repeat',
+            WebkitMaskPosition: 'center',
+            maskPosition: 'center',
+            WebkitMaskSize: 'contain',
+            maskSize: 'contain',
+            backgroundColor: 'transparent',
+            filter: isActive ? 'none' : 'grayscale(100%)'
           }}
         />
-      ))}
+      </div>
+      {!isActive && (
+        <div className="mt-4 text-center text-gray-500 font-medium flex items-center gap-2">
+          <Sprout className="w-4 h-4" />
+          {chrome.i18n.getMessage('planting_inactiveMessage')}
+        </div>
+      )}
     </div>
   );
 };

@@ -25,22 +25,22 @@ export const ProfileTab: React.FC<ProfileTabProps> = ({ profile }) => {
 	};
 
 	return (
-		<Card className="p-6">
+		<Card className="p-6 bg-brand-grey border border-brand-darkblue rounded-none">
 			<div className="space-y-4">
 				<div>
-					<Label>Display Name</Label>
-					<p className="text-lg">{profile?.display_name}</p>
+					<Label className="text-brand-darkblue">{chrome.i18n.getMessage('profile_displayName')}</Label>
+					<p className="text-lg text-brand-darkblue">{profile?.display_name}</p>
 				</div>
 				<div>
-					<Label>Member Since</Label>
-					<p className="text-lg">{new Date(profile?.created_at).toLocaleDateString()}</p>
+					<Label className="text-brand-darkblue">{chrome.i18n.getMessage('profile_memberSince')}</Label>
+					<p className="text-lg text-brand-darkblue">{new Date(profile?.created_at).toLocaleDateString()}</p>
 				</div>
 				<Button 
-					className="w-full" 
+					className="w-full bg-brand-darkblue hover:brightness-110 text-white uppercase font-candu tracking-wide" 
 					onClick={handleLogout}
 					disabled={loading}
 				>
-					{loading ? "Logging out..." : "Logout"}
+					{loading ? chrome.i18n.getMessage('profile_loggingOut') : chrome.i18n.getMessage('profile_logout')}
 				</Button>
 			</div>
 		</Card>

@@ -18,7 +18,7 @@ const TeamCreationModal: React.FC<TeamCreationModalProps> = ({ open, onOpenChang
 
 	const handleCreateTeam = async () => {
 		if (!teamName.trim()) {
-			setError("Team name is required");
+			setError(chrome.i18n.getMessage('team_teamNameRequired'));
 			return;
 		}
 
@@ -39,7 +39,7 @@ const TeamCreationModal: React.FC<TeamCreationModalProps> = ({ open, onOpenChang
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
-					<DialogTitle>Create a Team</DialogTitle>
+					<DialogTitle>{chrome.i18n.getMessage('team_createTeamTitle')}</DialogTitle>
 				</DialogHeader>
 
 				<div className="space-y-4 py-4">
@@ -49,12 +49,12 @@ const TeamCreationModal: React.FC<TeamCreationModalProps> = ({ open, onOpenChang
 						</Alert>
 					)}
 					<div className="space-y-2">
-						<Label htmlFor="team-name">Team Name</Label>
+						<Label htmlFor="team-name">{chrome.i18n.getMessage('team_teamName')}</Label>
 						<Input
 							id="team-name"
 							value={teamName}
 							onChange={(e) => setTeamName(e.target.value)}
-							placeholder="Enter team name"
+							placeholder={chrome.i18n.getMessage('team_enterTeamName')}
 						/>
 					</div>
 					<Button 
@@ -62,7 +62,7 @@ const TeamCreationModal: React.FC<TeamCreationModalProps> = ({ open, onOpenChang
 						onClick={handleCreateTeam}
 						disabled={createTeam.isPending}
 					>
-						{createTeam.isPending ? "Creating..." : "Create Team"}
+						{createTeam.isPending ? chrome.i18n.getMessage('team_creating') : chrome.i18n.getMessage('team_createTeam')}
 					</Button>
 				</div>
 			</DialogContent>

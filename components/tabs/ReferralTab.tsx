@@ -8,6 +8,10 @@ import { useQueryClient } from '@tanstack/react-query';
 import type { ReferralStats, ReferralCode, ReferralTabProps } from "~api/types";
 
 const ReferralTab: React.FC<ReferralTabProps> = ({ referralStats, referralCode }) => {
+	const REFERRALS_FOR_TREE = 3;
+	const referrals = referralStats?.total_referrals || 0;
+	const treesEarned = Math.floor(referrals / REFERRALS_FOR_TREE);
+	const progress = referrals % REFERRALS_FOR_TREE;
 	const queryClient = useQueryClient();
 
 	const STORE_URLS = {
@@ -41,44 +45,60 @@ const ReferralTab: React.FC<ReferralTabProps> = ({ referralStats, referralCode }
 
 		if (!error) {
 			// Invalidate the referral code query to trigger a refresh
-			queryClient.invalidateQueries(['referralCode', user.id]);
+			queryClient.invalidateQueries({ queryKey: ['referralCode', user.id] });
 		}
 	};
 
 	return (
 		<div className="space-y-6">
-			<Card className="p-6">
-				<h3 className="font-medium mb-4">Referral Stats</h3>
+			<Card className="p-6 bg-brand-grey border border-brand-darkblue rounded-none">
+				<h3 className="font-medium mb-2 text-brand-darkblue">{chrome.i18n.getMessage('referral_promo_title')}</h3>
+				<p className="text-sm text-brand-darkblue/80 mb-4">{chrome.i18n.getMessage('referral_promo_description')}</p>
 				<div className="grid grid-cols-2 gap-4">
 					<div>
-						<Label>Total Referrals</Label>
-						<p className="text-lg">{referralStats?.total_referrals||0}</p>
+						<Label className="text-brand-darkblue">{chrome.i18n.getMessage('referral_promo_progress')}</Label>
+						<p className="text-lg text-brand-darkblue">{progress} / {REFERRALS_FOR_TREE}</p>
 					</div>
 					<div>
-						<Label>Total Referral Requests</Label>
-						<p className="text-lg">{referralStats?.total_requests||0}</p>
+						<Label className="text-brand-darkblue">{chrome.i18n.getMessage('referral_promo_trees_earned')}</Label>
+						<p className="text-lg text-brand-darkblue">{treesEarned}</p>
+					</div>
+				</div>
+			</Card>
+			<Card className="p-6 bg-brand-grey border border-brand-darkblue rounded-none">
+				<h3 className="font-medium mb-4 text-brand-darkblue">{chrome.i18n.getMessage('referral_stats_title')}</h3>
+				<div className="grid grid-cols-2 gap-4">
+					<div>
+						<Label className="text-brand-darkblue">{chrome.i18n.getMessage('referral_total_referrals')}</Label>
+						<p className="text-lg text-brand-darkblue">{referralStats?.total_referrals||0}</p>
+					</div>
+					<div>
+						<Label className="text-brand-darkblue">{chrome.i18n.getMessage('referral_total_referral_requests')}</Label>
+						<p className="text-lg text-brand-darkblue">{referralStats?.total_points || 0}</p>
 					</div>
 				</div>
 			</Card>
 
-			<Card className="p-6">
-				<h3 className="font-medium mb-4">Your Referral Code</h3>
+			<Card className="p-6 bg-brand-grey border border-brand-darkblue rounded-none">
+				<h3 className="font-medium mb-4 text-brand-darkblue">{chrome.i18n.getMessage('referral_yourCode')}</h3>
 				{referralCode ? (
 					<div className="space-y-4">
 						<div className="flex items-center gap-2">
-							<code className="flex-1 p-2 bg-gray-50 rounded">{referralCode?.code}</code>
-							<Button size="icon" variant="ghost" onClick={handleCopyCode}>
+							<code className="flex-1 p-2 bg-brand-grey border border-brand-darkblue rounded-none text-brand-darkblue">{referralCode?.code}</code>
+							<Button size="icon" variant="ghost" onClick={handleCopyCode} className="bg-brand-darkblue hover:brightness-110 text-white">
 								<Copy className="h-4 w-4" />
 							</Button>
 						</div>
-						<div className="text-sm text-gray-500">
-							Used {referralCode.uses} times since {new Date(referralCode?.created_at).toLocaleDateString()}
+						<div className="text-sm text-brand-darkblue/80">
+							{chrome.i18n.getMessage('referral_usedTimes', [referralCode.uses.toString(), new Date(referralCode?.created_at).toLocaleDateString()])}
 						</div>
 					</div>
 				) : (
 					<div className="space-y-4">
-						<p className="text-gray-500">No referral code generated yet</p>
-						<Button onClick={generateReferralCode}>Generate Referral Code</Button>
+						<p className="text-brand-darkblue/80">{chrome.i18n.getMessage('referral_no_referral_code')}</p>
+						<Button onClick={generateReferralCode} className="bg-brand-darkblue hover:brightness-110 text-white uppercase font-candu tracking-wide">
+							{chrome.i18n.getMessage('referral_generate_referral_code')}
+						</Button>
 					</div>
 				)}
 			</Card>

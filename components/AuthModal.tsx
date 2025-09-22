@@ -116,19 +116,19 @@ export const AuthModal: React.FC<AuthModalProps> = ({ open, onOpenChange }) => {
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="w-[560px] max-h-[85vh] overflow-y-auto p-6 bg-brand-grey border border-brand-darkblue rounded-none">
 				<DialogHeader>
-					<DialogTitle>Welcome to Idle Forest</DialogTitle>
-					<DialogDescription>
-						Create an account to track your impact and earn rewards
+					<DialogTitle className="text-center text-2xl font-candu tracking-wide uppercase text-brand-darkblue">{chrome.i18n.getMessage("auth_login")}</DialogTitle>
+					<DialogDescription className="text-brand-darkblue/80">
+						{chrome.i18n.getMessage("auth_description")}
 					</DialogDescription>
 				</DialogHeader>
 
 				
 					<Tabs defaultValue="signup" className="w-full">
 						<TabsList className="grid w-full grid-cols-2">
-							<TabsTrigger value="signup">Sign Up</TabsTrigger>
-							<TabsTrigger value="login">Login</TabsTrigger>
+							<TabsTrigger value="signup">{chrome.i18n.getMessage("auth_signup")}</TabsTrigger>
+							<TabsTrigger value="login">{chrome.i18n.getMessage("auth_login")}</TabsTrigger>
 						</TabsList>
 
 					<TabsContent value="signup" className="space-y-4">
@@ -146,41 +146,41 @@ export const AuthModal: React.FC<AuthModalProps> = ({ open, onOpenChange }) => {
 						) : (
 							<div className="space-y-4">
 								<div className="space-y-2">
-									<Label htmlFor="display-name">Display Name</Label>
+									<Label htmlFor="display-name" className="text-brand-darkblue">{chrome.i18n.getMessage("auth_displayName")}</Label>
 									<Input
 										id="display-name"
 										type="text"
 										value={displayName}
 										onChange={(e) => setDisplayName(e.target.value)}
-										placeholder="Enter your display name"
+										placeholder={chrome.i18n.getMessage("auth_enterDisplayName")}
 									/>
 								</div>
 								<div className="space-y-2">
-									<Label htmlFor="email">Email</Label>
+									<Label htmlFor="email" className="text-brand-darkblue">{chrome.i18n.getMessage("auth_email")}</Label>
 									<Input
 										id="email"
 										type="email"
 										value={email}
 										onChange={(e) => setEmail(e.target.value)}
-										placeholder="Enter your email"
+										placeholder={chrome.i18n.getMessage("auth_enterEmail")}
 									/>
 								</div>
 								<div className="space-y-2">
-									<Label htmlFor="password">Password</Label>
+									<Label htmlFor="password" className="text-brand-darkblue">{chrome.i18n.getMessage("auth_password")}</Label>
 									<Input
 										id="password"
 										type="password"
 										value={password}
 										onChange={(e) => setPassword(e.target.value)}
-										placeholder="Create a password"
+										placeholder={chrome.i18n.getMessage("auth_createPassword")}
 									/>
 								</div>
 								<Button 
-									className="w-full" 
+									className="w-full bg-brand-darkblue hover:brightness-110 text-white uppercase font-candu tracking-wide rounded-none" 
 									onClick={() => handleAuth("signup")} 
 									disabled={loading}
 								>
-									{loading ? "Creating account..." : "Sign up"}
+									{loading ? chrome.i18n.getMessage("auth_creatingAccount") : chrome.i18n.getMessage("auth_signup")}
 								</Button>
 							</div>
 						)}
@@ -194,31 +194,31 @@ export const AuthModal: React.FC<AuthModalProps> = ({ open, onOpenChange }) => {
 						)}
 						<div className="space-y-4">
 							<div className="space-y-2">
-								<Label htmlFor="login-email">Email</Label>
+								<Label htmlFor="login-email" className="text-brand-darkblue">{chrome.i18n.getMessage("auth_email")}</Label>
 								<Input
 									id="login-email"
 									type="email"
 									value={email}
 									onChange={(e) => setEmail(e.target.value)}
-									placeholder="Enter your email"
+									placeholder={chrome.i18n.getMessage("auth_enterEmail")}
 								/>
 							</div>
 							<div className="space-y-2">
-								<Label htmlFor="login-password">Password</Label>
+								<Label htmlFor="login-password" className="text-brand-darkblue">{chrome.i18n.getMessage("auth_password")}</Label>
 								<Input
 									id="login-password"
 									type="password"
 									value={password}
 									onChange={(e) => setPassword(e.target.value)}
-									placeholder="Enter your password"
+									placeholder={chrome.i18n.getMessage("auth_enterPassword")}
 								/>
 							</div>
 							<Button 
-								className="w-full" 
+								className="w-full bg-brand-darkblue hover:brightness-110 text-white uppercase font-candu tracking-wide rounded-none" 
 								onClick={() => handleAuth("login")} 
 								disabled={loading}
 							>
-								{loading ? "Logging in..." : "Login"}
+								{loading ? chrome.i18n.getMessage("auth_loggingIn") : chrome.i18n.getMessage("auth_login")}
 							</Button>
 						</div>
 					</TabsContent>

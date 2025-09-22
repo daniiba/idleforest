@@ -10,23 +10,22 @@ interface PlantingTabProps {
 
 const PlantingTab: React.FC<PlantingTabProps> = ({ isActive, onOptIn, onOptOut }) => {
   return (
-    <div>
+    <div className="p-6 bg-brand-grey border border-brand-darkblue rounded-none">
       <MellowtelAnimation isActive={isActive} />
       <div className="flex justify-center mt-4">
         {isActive ? (
           <Button 
-            variant="outline" 
             onClick={onOptOut}
-            className="bg-white hover:bg-red-50 text-red-600 border-red-200 hover:border-red-300"
+            className="bg-brand-darkblue hover:brightness-110 text-white uppercase font-candu tracking-wide px-6"
           >
-            Stop Planting
+            {chrome.i18n.getMessage('app_stopPlanting')}
           </Button>
         ) : (
           <Button 
             onClick={onOptIn}
-            className="bg-green-600 hover:bg-green-700 text-white"
+            className="bg-brand-darkblue hover:brightness-110 text-white uppercase font-candu tracking-wide px-6"
           >
-            Start Planting
+            {chrome.i18n.getMessage('app_startPlanting')}
           </Button>
         )}
       </div>
@@ -35,3 +34,4 @@ const PlantingTab: React.FC<PlantingTabProps> = ({ isActive, onOptIn, onOptOut }
 };
 
 export default PlantingTab;
+

@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { Share2, BarChart2 } from "lucide-react";
+import { Share2, BarChart2, Info } from "lucide-react";
 import type { TabType } from "~api/types";
 import { Storage } from "@plasmohq/storage"
 import { sendToBackground } from "@plasmohq/messaging"
 import browser from "webextension-polyfill";
+import logoUrl from "url:~assets/logo.png";
 
 interface HelpTasks {
   shared: boolean;
@@ -23,6 +24,8 @@ import PlantingTab from './tabs/PlantingTab';
 import { MellowtelAnimation } from './MellowtelAnimation';
 import { useAuth } from "~context/AuthProvider";
 import ShareModal from './ShareModal';
+import LanguageSelector from './LanguageSelector';
+import Promo from './Promo';
 
 const STORAGE_KEY = "idleforest_help_tasks";
 const COST_PER_TREE = 0.30;
@@ -32,20 +35,16 @@ const SEEDS_PER_TREE = 100;
 const getStoreUrl = () => {
   const id = browser.runtime.id;
   const browserInfo = navigator.userAgent;
-  if (browserInfo.includes("Firefox")) {
-    return `https://addons.mozilla.org/firefox/addon/idleforest`;
-  }
+ 
   if (browserInfo.includes("Edg")) {
     return `https://microsoftedge.microsoft.com/addons/detail/${id}`;
   }
-  if (browserInfo.includes("Safari")) {
+/*   if (browserInfo.includes("Safari")) {
     return `https://apps.apple.com/app/idleforest/id${id}`;
-  }
-  if (browserInfo.includes("OPR")) {
-    return `https://addons.opera.com/extensions/details/idleforest`;
-  }
+  } */
+
   // Default to Chrome Web Store
-  return `https://chrome.google.com/webstore/detail/${id}`;
+  return `https://chrome.google.com/webstore/detail/ofdclafhpmccdddnmfalihgkahgiomjk`;
 };
 
 const storage = new Storage({area:"local"})
@@ -114,7 +113,7 @@ const ForestGrid: React.FC = () => {
 
   const shareText = (platform: string) => {
     const handle = platform === 'bluesky' ? '@idleforest.bsky.social' : '@IdleForestTree';
-    return `I'm growing a forest while browsing with ${handle}! Join me in making a difference - it's completely free and automatic at https://idleforest.com.`;
+    return chrome.i18n.getMessage('share_social_text', [handle]);
   };
 
   const handleShare = async (platform: string) => {
@@ -161,7 +160,20 @@ const ForestGrid: React.FC = () => {
 
         const lifetimeRequests = await storage.get('lifetime_total_count_m') || 0;
         setUserLifetimeRequests(Number(lifetimeRequests));
-        setStats(mellowtelStats);
+        // Apply legacy formula from webapp to compute formatted earnings and total trees
+        const earningsParsed = parseFloat(String(mellowtelStats.earnings).replace('$', '')) || 0;
+        const earningsNum = earningsParsed + 25; // legacy offset
+        const treesPlantedRaw = Math.floor((earningsNum - 205) / 0.55) + 652;
+        const formattedEarnings = `$${earningsNum.toFixed(2)}`; // ensure 2 decimals
+
+        setStats((prev: any) => ({
+          ...prev,
+          ...mellowtelStats,
+          requestsTotal: mellowtelStats.requestsTotal ?? 0,
+          earnings: formattedEarnings,
+          treesPlanted: Number.isFinite(treesPlantedRaw) ? Math.max(0, treesPlantedRaw) : 0,
+          totalUsers: mellowtelStats.totalUsers ?? mellowtelStats.active_node_count ?? 0,
+        }));
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -223,89 +235,111 @@ const ForestGrid: React.FC = () => {
   const hasUncompletedTasks = !helpTasks.shared || !helpTasks.rated;
 
   return (
-    <div className="w-[500px] mx-auto bg-gradient-to-b from-green-50 to-white">
-      <Card className="border-0 shadow-none bg-transparent">
+    <div className="w-[560px] mx-auto bg-brand-grey">
+      <Card className="border border-brand-grey bg-brand-grey rounded-none">
         <CardContent className="p-6">
-            {/* Header with icons */}
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-semibold text-green-800">Idle Forest</h2>
-              <div className="flex gap-3 items-center">
-                {loading ? (
-                  <div className="animate-pulse bg-gray-200 h-8 w-16 rounded" />
-                ) : !user ? (
-                  <Button
-                    variant="ghost"
-                    onClick={() => setShowAuthModal(true)}
-                    className="text-green-600 hover:bg-green-50"
-                  >
-                    Login
-                  </Button>
-                ) : null}
-                <div className="relative">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setShowShareModal(!showShareModal)}
-                    className="h-9 w-9 rounded-full hover:bg-green-50"
-                  >
-                    <Share2 className="h-5 w-5 text-green-600" />
-                  </Button>
-                  {hasUncompletedTasks && (
-                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full" />
-                  )}
-                </div>
+          {/* Header with icons */}
+          <div className="flex justify-between items-center mb-6">
+            <img src={logoUrl} alt="Idle Forest" className="h-6" />
+            <div className="flex gap-2 items-center">
+              <LanguageSelector />
+              {loading ? (
+                <div className="animate-pulse bg-brand-grey h-8 w-16" />
+              ) : !user ? (
+                <Button
+                  variant="ghost"
+                  onClick={() => setShowAuthModal(true)}
+                  className="text-brand-darkblue hover:bg-brand-grey/40"
+                >
+                  {chrome.i18n.getMessage('app_login')}
+                </Button>
+              ) : null}
+              <div className="relative">
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={() => setShowStats(!showStats)}
-                  className="h-9 w-9 rounded-full hover:bg-green-50"
+                  onClick={() => setShowShareModal(!showShareModal)}
+                  className="h-9 w-9 rounded-full hover:bg-brand-grey/40"
                 >
-                  <BarChart2 className="h-5 w-5 text-green-600" />
+                  <Share2 className="h-5 w-5 text-brand-darkblue" />
                 </Button>
+                {hasUncompletedTasks && (
+                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-brand-yellow rounded-full" />
+                )}
               </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowStats(!showStats)}
+                className="h-9 w-9 rounded-full hover:bg-brand-grey/40"
+              >
+                <BarChart2 className="h-5 w-5  text-brand-darkblue" />
+              </Button>
             </div>
+          </div>
 
-            {user && <Navigation activeTab={activeTab} onTabChange={setActiveTab} />}
-            
-            {/* Show planting animation for non-logged in users */}
-            {!user && (
+          {user && <Navigation activeTab={activeTab} onTabChange={setActiveTab} />}
+
+
+          <Promo onNavigate={setActiveTab} />
+          {/* Show content for non-logged-in users */}
+          {!user && (
+            <>
               <div className="mb-8">
                 <MellowtelAnimation isActive={isMellowtelActive} />
                 <div className="flex justify-center mt-4">
                   {isMellowtelActive ? (
-                    <Button 
-                      variant="outline" 
+                    <Button
                       onClick={handleOptOut}
-                      className="bg-white hover:bg-red-50 text-red-600 border-red-200 hover:border-red-300"
-                    >
-                      Stop Planting
+                      className="bg-brand-darkblue hover:brightness-110 text-white uppercase font-candu tracking-wide  px-6"
+                      >
+                      {chrome.i18n.getMessage('app_stopPlanting')}
                     </Button>
                   ) : (
-                    <Button 
+                    <Button
                       onClick={handleOptIn}
-                      className="bg-green-600 hover:bg-green-700 text-white"
+                      className="bg-brand-darkblue hover:brightness-110 text-white uppercase font-candu tracking-wide  px-6"
                     >
-                      Start Planting
+                      {chrome.i18n.getMessage('app_startPlanting')}
                     </Button>
                   )}
                 </div>
+                {!isMellowtelActive && (
+                  <div className="bg-brand-grey border border-brand-darkblue text-brand-darkblue text-xs p-4 mt-8 flex items-start gap-3">
+                    <div className="h-6 w-6 rounded-full  flex items-center justify-center mt-0.5">
+                      <Info className="h-3.5 w-3.5" />
+                    </div>
+                    <p>
+                      {chrome.i18n.getMessage('app_shareBandwidth')}{' '}
+                      <a
+                        href="https://www.mellowtel.com/privacy-policy"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold hover:underline"
+                      >
+                        {chrome.i18n.getMessage('app_learnMore')}
+                      </a>
+                    </p>
+                  </div>
+                )}
               </div>
-            )}
+            </>
+          )}
 
-            {/* Show tab content for logged in users */}
-            {renderTabContent()}
+          {/* Show tab content for logged in users */}
+          {renderTabContent()}
         </CardContent>
       </Card>
 
-      <ShareModal 
-        open={showShareModal} 
+      <ShareModal
+        open={showShareModal}
         onOpenChange={setShowShareModal}
         onShare={handleShare}
         onRate={handleRate}
         helpTasks={helpTasks}
       />
 
-      <StatsModal 
+      <StatsModal
         open={showStats}
         onOpenChange={setShowStats}
         stats={stats}
@@ -316,14 +350,14 @@ const ForestGrid: React.FC = () => {
         }}
         userLifetimeRequests={userLifetimeRequests}
         SEEDS_PER_TREE={SEEDS_PER_TREE}
-        />
+      />
 
-        <AuthModal 
-        open={showAuthModal} 
+      <AuthModal
+        open={showAuthModal}
         onOpenChange={setShowAuthModal}
-        />
-      </div>
-      );
+      />
+    </div>
+  );
 };
 
 export default ForestGrid;

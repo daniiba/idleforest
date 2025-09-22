@@ -10,9 +10,8 @@ import { useTeams } from "~api/queries";
 import { useJoinTeam, useLeaveTeam, useDeleteTeam } from "~api/mutations";
 import type { TeamManagementProps, TeamTabProps } from '~api/types';
 
-
 const LoadingSkeleton = () => (
-	<Card className="p-6">
+	<Card className="p-6 bg-brand-grey border border-brand-darkblue rounded-none">
 		<div className="space-y-6">
 			<div>
 				<div className="h-4 w-16 bg-gray-200 rounded animate-pulse mb-2" />
@@ -41,23 +40,23 @@ const TeamManagement: React.FC<TeamManagementProps> = ({ isCreator, onLeave, onD
 
 	return (
 		<>
-			<div className="flex gap-2 mt-6 pt-6 border-t">
+			<div className="flex gap-2 mt-6 pt-6 border-t border-brand-darkblue">
 				<Button
 					variant="outline"
-					className="text-red-600 hover:bg-red-50"
+					className="text-red-600 hover:bg-red-50 rounded-none uppercase font-candu tracking-wide border border-brand-darkblue"
 					onClick={() => setShowLeaveDialog(true)}
 				>
 					<LogOut className="h-4 w-4 mr-2" />
-					Leave Team
+					{chrome.i18n.getMessage('team_leaveTeam')}
 				</Button>
 				{isCreator && (
 					<Button
 						variant="outline"
-						className="text-red-600 hover:bg-red-50"
+						className="text-red-600 hover:bg-red-50 rounded-none uppercase font-candu tracking-wide border border-brand-darkblue"
 						onClick={() => setShowDeleteDialog(true)}
 					>
 						<Trash2 className="h-4 w-4 mr-2" />
-						Delete Team
+						{chrome.i18n.getMessage('team_deleteTeam')}
 					</Button>
 				)}
 			</div>
@@ -65,13 +64,13 @@ const TeamManagement: React.FC<TeamManagementProps> = ({ isCreator, onLeave, onD
 			<AlertDialog open={showLeaveDialog} onOpenChange={setShowLeaveDialog}>
 				<AlertDialogContent>
 					<AlertDialogHeader>
-						<AlertDialogTitle>Leave Team</AlertDialogTitle>
+						<AlertDialogTitle>{chrome.i18n.getMessage('team_leaveTeamTitle')}</AlertDialogTitle>
 						<AlertDialogDescription>
-							Are you sure you want to leave this team? You'll lose access to team features.
+							{chrome.i18n.getMessage('team_leaveTeamDescription')}
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
-						<AlertDialogCancel>Cancel</AlertDialogCancel>
+						<AlertDialogCancel>{chrome.i18n.getMessage('team_cancel')}</AlertDialogCancel>
 						<AlertDialogAction
 							onClick={async () => {
 								setLoading(true);
@@ -81,7 +80,7 @@ const TeamManagement: React.FC<TeamManagementProps> = ({ isCreator, onLeave, onD
 							}}
 							className="bg-red-600 hover:bg-red-700"
 						>
-							{loading ? "Leaving..." : "Leave Team"}
+							{loading ? chrome.i18n.getMessage('team_leaving') : chrome.i18n.getMessage('team_leaveTeam')}
 						</AlertDialogAction>
 					</AlertDialogFooter>
 				</AlertDialogContent>
@@ -90,13 +89,13 @@ const TeamManagement: React.FC<TeamManagementProps> = ({ isCreator, onLeave, onD
 			<AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
 				<AlertDialogContent>
 					<AlertDialogHeader>
-						<AlertDialogTitle>Delete Team</AlertDialogTitle>
+						<AlertDialogTitle>{chrome.i18n.getMessage('team_deleteTeamTitle')}</AlertDialogTitle>
 						<AlertDialogDescription>
-							This action cannot be undone. This will permanently delete the team and remove all members.
+							{chrome.i18n.getMessage('team_deleteTeamDescription')}
 						</AlertDialogDescription>
 					</AlertDialogHeader>
 					<AlertDialogFooter>
-						<AlertDialogCancel>Cancel</AlertDialogCancel>
+						<AlertDialogCancel>{chrome.i18n.getMessage('team_cancel')}</AlertDialogCancel>
 						<AlertDialogAction
 							onClick={async () => {
 								setLoading(true);
@@ -106,7 +105,7 @@ const TeamManagement: React.FC<TeamManagementProps> = ({ isCreator, onLeave, onD
 							}}
 							className="bg-red-600 hover:bg-red-700"
 						>
-							{loading ? "Deleting..." : "Delete Team"}
+							{loading ? chrome.i18n.getMessage('team_deleting') : chrome.i18n.getMessage('team_deleteTeam')}
 						</AlertDialogAction>
 					</AlertDialogFooter>
 				</AlertDialogContent>
@@ -126,7 +125,6 @@ const TeamTab: React.FC<TeamTabProps> = ({ team }) => {
 	const deleteTeam = useDeleteTeam();
 
 	const handleJoinTeam = async (teamId: string) => {
-		
 		joinTeam.mutate({ 
 			teamId, 
 			userId: user?.id!
@@ -147,10 +145,6 @@ const TeamTab: React.FC<TeamTabProps> = ({ team }) => {
 		});
 	};
 
-
-
-
-
 	if (!team && isLoading) {
 		return <LoadingSkeleton />;
 	}
@@ -158,36 +152,37 @@ const TeamTab: React.FC<TeamTabProps> = ({ team }) => {
 	if (!team && !isLoading) {
 		return (
 			<div className="space-y-4">
-				<Card className="p-6 text-center">
-					<Users className="h-12 w-12 mx-auto mb-4 text-gray-400" />
-					<h3 className="text-lg font-medium mb-2">No Team Yet</h3>
-					<p className="text-gray-500 mb-4">Create a new team or join an existing one</p>
+				<Card className="p-6 text-center bg-brand-grey border border-brand-darkblue rounded-none">
+					<Users className="h-12 w-12 mx-auto mb-4 text-brand-darkblue" />
+					<h3 className="text-lg font-medium text-brand-darkblue">{chrome.i18n.getMessage('team_noTeamYet')}</h3>
+					<p className="text-brand-darkblue/80 mb-4">{chrome.i18n.getMessage('team_noTeamDescription')}</p>
 					<Button 
 						onClick={() => setShowCreateTeam(true)}
-						className="inline-flex items-center gap-2 mb-4"
+						className="inline-flex items-center gap-2 mb-4 bg-brand-darkblue hover:brightness-110 text-white uppercase font-candu tracking-wide"
 					>
 						<Plus className="h-4 w-4" />
-						Create Team
+						{chrome.i18n.getMessage('team_createTeam')}
 					</Button>
 				</Card>
 
 				<div className="space-y-4">
-					<h3 className="text-lg font-medium">Available Teams</h3>
+					<h3 className="text-lg font-medium text-brand-darkblue">{chrome.i18n.getMessage('team_availableTeams')}</h3>
 					{availableTeams.map((availableTeam) => (
-						<Card key={availableTeam.id} className="p-4">
+						<Card key={availableTeam.id} className="p-4 bg-brand-grey border border-brand-darkblue rounded-none">
 							<div className="flex items-center justify-between">
 								<div>
-									<h4 className="font-medium">{availableTeam.name}</h4>
-									<p className="text-sm text-gray-500">
+									<h4 className="font-medium text-brand-darkblue">{availableTeam.name}</h4>
+									<p className="text-xs text-brand-darkblue/80">{chrome.i18n.getMessage('team_creatorLabel')}</p>
+									<p className="text-sm text-brand-darkblue/80">
 										{availableTeam.team_members?.length || 0} members
 									</p>
 								</div>
 								<Button
-									variant="outline"
+									className="bg-brand-darkblue hover:brightness-110 text-white uppercase font-candu tracking-wide"
 									onClick={() => handleJoinTeam(availableTeam.id)}
 									disabled={joinTeam.isPending}
 								>
-									Join Team
+									{chrome.i18n.getMessage('team_joinTeam')}
 								</Button>
 							</div>
 						</Card>
@@ -204,30 +199,30 @@ const TeamTab: React.FC<TeamTabProps> = ({ team }) => {
 
 	return (
 		<div className="space-y-4">
-			<Card className="p-6">
+			<Card className="p-6 bg-brand-grey border border-brand-darkblue rounded-none">
 				{isLoading ? (
 					<LoadingSkeleton />
 				) : (
 					<div className="space-y-6">
 						{/* Team display section */}
 						<div>
-							<Label>Team Name</Label>
-							<p className="text-lg font-medium">{team.name}</p>
+							<Label className="text-brand-darkblue">{chrome.i18n.getMessage('team_teamName')}</Label>
+							<p className="text-lg font-medium text-brand-darkblue">{team.name}</p>
 						</div>
 						<div>
-							<Label>Total Points</Label>
-							<p className="text-lg">{team.total_points.toLocaleString()}</p>
+							<Label className="text-brand-darkblue">{chrome.i18n.getMessage('team_created')}</Label>
+							<p className="text-lg text-brand-darkblue">{new Date(team.created_at).toLocaleDateString()}</p>
 						</div>
 						<div>
-							<Label className="mb-2 block">Team Members</Label>
+							<Label className="mb-2 block text-brand-darkblue">{chrome.i18n.getMessage('team_teamMembers')}</Label>
 							<div className="space-y-2">
 								{team.team_members?.map((member) => (
-									<div key={member.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+									<div key={member.id} className="flex items-center justify-between p-2 bg-brand-grey border border-brand-darkblue rounded-none">
 										<span>
 											{member.profiles?.display_name || 'Unknown User'}
 										</span>
-										<span className="text-sm text-gray-500">
-											Joined {new Date(member.joined_at).toLocaleDateString()}
+										<span className="text-sm text-brand-darkblue/80">
+											{chrome.i18n.getMessage('team_joinedOn', [new Date(member.joined_at).toLocaleDateString()])}
 										</span>
 									</div>
 								))}
@@ -246,29 +241,29 @@ const TeamTab: React.FC<TeamTabProps> = ({ team }) => {
 			</Card>
 
 			<div className="space-y-4">
-				<h3 className="text-lg font-medium">Other Available Teams</h3>
+				<h3 className="text-lg font-medium text-brand-darkblue">{chrome.i18n.getMessage('team_otherAvailableTeams')}</h3>
 				{availableTeams?.filter(availableTeam => availableTeam.id !== team?.id).map((availableTeam) => (
 					<Card 
 						key={availableTeam.id} 
-						className={`p-4 cursor-pointer ${selectedTeam?.id === availableTeam.id ? 'ring-2 ring-blue-500' : ''}`}
+						className={`p-4 cursor-pointer bg-brand-grey border border-brand-darkblue rounded-none ${selectedTeam?.id === availableTeam.id ? 'ring-2 ring-brand-darkblue' : ''}`}
 						onClick={() => setSelectedTeam(selectedTeam?.id === availableTeam.id ? null : availableTeam)}
 					>
 						<div className="flex items-center justify-between">
 							<div>
-								<h4 className="font-medium">{availableTeam.name}</h4>
-								<p className="text-sm text-gray-500">
+								<h4 className="font-medium text-brand-darkblue">{availableTeam.name}</h4>
+								<p className="text-sm text-brand-darkblue/80">
 									{availableTeam.team_members?.length || 0} members
 								</p>
 							</div>
 						</div>
 						{selectedTeam?.id === availableTeam.id && (
-							<div className="mt-4 pt-4 border-t">
+							<div className="mt-4 pt-4 border-t border-brand-darkblue">
 								<div className="space-y-2">
-									<p className="text-sm font-medium">Team Points: {availableTeam.total_points?.toLocaleString() || 0}</p>
+									<p className="text-sm font-medium text-brand-darkblue">{chrome.i18n.getMessage('team_teamPoints')}: {availableTeam.total_points?.toLocaleString() || 0}</p>
 									<div className="space-y-1">
-										<p className="text-sm font-medium">Members:</p>
+										<p className="text-sm font-medium text-brand-darkblue">{chrome.i18n.getMessage('team_members')}:</p>
 										{availableTeam.team_members?.map((member: any) => (
-											<p key={member.id} className="text-sm text-gray-600">
+											<p key={member.id} className="text-sm text-brand-darkblue/80">
 												{member.profiles?.display_name || 'Unknown User'}
 											</p>
 										))}

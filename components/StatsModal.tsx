@@ -13,6 +13,7 @@ interface StatsModalProps {
 	stats: {
 		earnings: string;
 		requestsTotal: number;
+		treesPlanted?: number;
 	};
 	metrics: {
 		userEarnings: string;
@@ -25,117 +26,77 @@ interface StatsModalProps {
 }
 
 export const StatsModal: React.FC<StatsModalProps> = ({ 
-	open, 
-	onOpenChange, 
-	stats, 
-	metrics, 
-	userLifetimeRequests,
-	SEEDS_PER_TREE 
+  open, 
+  onOpenChange, 
+  stats, 
+  metrics, 
+  userLifetimeRequests,
+  SEEDS_PER_TREE 
 }) => {
-	return (
-		<Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-[480px] max-h-[85vh] rounded-lg overflow-y-auto p-6">
-<DialogHeader className="">
-  <DialogTitle className="text-xl font-semibold text-gray-900">Forest Statistics</DialogTitle>
-</DialogHeader>
-<div className="space-y-5">
-  <div className="bg-blue-50/50 border border-blue-100 rounded-lg p-4">
-	<p className="flex items-center gap-3 text-blue-700">
-	  <InfoIcon className="h-5 w-5 text-blue-500 flex-shrink-0" />
-	  <span className="text-sm font-medium">
-		Your participation matters! Even with low initial requests, you're helping grow our early-stage network. 
-		As we expand, you'll see increased activity and greater environmental impact.
-	  </span>
-	</p>
-  </div>
-          {/* Earnings Section */}
-          <div className="grid grid-cols-2 gap-4 bg-gradient-to-br from-green-50/50 to-white p-4 rounded-lg border border-gray-100">
-            <div className="space-y-1">
-              <p className="text-xs font-medium text-gray-500">Your Earnings</p>
-              <h3 className="text-2xl font-semibold text-gray-900">${metrics.userEarnings}</h3>
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="w-[560px] max-h-[85vh] overflow-y-auto p-6 bg-brand-grey border border-brand-darkblue rounded-none">
+        <DialogHeader>
+          <DialogTitle className="text-center text-2xl font-candu tracking-wide uppercase text-brand-darkblue">
+            {chrome.i18n.getMessage('stats_title')}
+          </DialogTitle>
+        </DialogHeader>
+
+        <div className="space-y-4">
+          {/* Info banner */}
+          <div className="bg-brand-yellow text-brand-darkblue border border-brand-darkblue px-4 py-3 flex items-start gap-3">
+            <div className="flex-shrink-0 pt-0.5">
+              <InfoIcon className="h-5 w-5" />
             </div>
-            <div className="space-y-1 text-right">
-              <p className="text-xs font-medium text-gray-500">Global Earnings</p>
-              <h3 className="text-2xl font-semibold text-gray-900">{stats.earnings}</h3>
+            <p className="text-sm">
+              <span >{chrome.i18n.getMessage('stats_participationMessage')}</span>
+            </p>
+          </div>
+
+          {/* Dark tiles grid */}
+          <div className="grid grid-cols-2 gap-3">
+            {/* Earnings */}
+            <div className="bg-brand-darkblue text-white border border-brand-grey px-4 py-5">
+              <p className="text-xs opacity-80">{chrome.i18n.getMessage('stats_earnings')}</p>
+              <p className="mt-1 text-3xl font-candu tracking-wide">${metrics.userEarnings}</p>
             </div>
-            <div className="col-span-2 pt-3 border-t border-gray-100">
-              <p className="text-xs font-medium text-gray-500">Global Requests</p>
-              <p className="text-2xl font-semibold text-gray-900 mt-1">{stats.requestsTotal.toLocaleString()}</p>
+            {/* Global Earnings */}
+            <div className="bg-brand-darkblue text-white border border-brand-grey px-4 py-5">
+              <p className="text-xs opacity-80">{chrome.i18n.getMessage('stats_globalEarnings')}</p>
+              <p className="mt-1 text-3xl font-candu tracking-wide">{stats.earnings}</p>
+            </div>
+            {/* Total Requests */}
+            <div className="bg-brand-darkblue text-white border border-brand-grey px-4 py-5">
+              <p className="text-xs opacity-80">{chrome.i18n.getMessage('stats_totalRequests')}</p>
+              <p className="mt-1 text-3xl font-candu tracking-wide">{stats.requestsTotal}</p>
+            </div>
+            {/* Trees Planted (global) */}
+            <div className="bg-brand-darkblue text-white border border-brand-grey px-4 py-5">
+              <p className="text-xs opacity-80">{chrome.i18n.getMessage('stats_treesPlanted')}</p>
+              <p className="mt-1 text-3xl font-candu tracking-wide">{stats.treesPlanted ?? 0}</p>
             </div>
           </div>
 
-          {/* Stats Grid */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-white p-4 rounded-lg border border-gray-200 hover:border-green-200 transition-colors">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="p-2 bg-gray-50 rounded-md">
-                  <Wind className="h-3.5 w-3.5 text-gray-600" />
-                </div>
-                <p className="text-xs font-medium text-gray-500">Your Requests</p>
-              </div>
-              <p className="text-xl font-semibold text-gray-900">{userLifetimeRequests.toLocaleString()}</p>
+          {/* Light grey summary cards */}
+          <div className="space-y-3">
+            <div className="bg-brand-grey border border-brand-darkblue px-5 py-4">
+              <p className="text-sm text-brand-darkblue">{chrome.i18n.getMessage('stats_earnings')}</p>
+              <p className="mt-1 text-3xl text-brand-darkblue font-candu tracking-wide">${metrics.userEarnings}</p>
             </div>
-            
-            <div className="bg-white p-4 rounded-lg border border-gray-200 hover:border-green-200 transition-colors">
-  <div className="flex items-center gap-3 mb-2">
-	<div className="p-2 bg-gray-50 rounded-md">
-	  <Sprout className="h-3.5 w-3.5 text-gray-600" />
-	</div>
-	<p className="text-xs font-medium text-gray-500">Seeds Planted</p>
-  </div>
-  <p className="text-xl font-semibold text-gray-900">
-	{Math.floor(metrics.userProgress * SEEDS_PER_TREE)}
-  </p>
-  <p className="text-xs text-gray-500 mt-1">100 seeds = 1 tree</p>
+            <div className="bg-brand-grey border border-brand-darkblue px-5 py-4">
+              <p className="text-sm text-brand-darkblue">{chrome.i18n.getMessage('stats_globalEarnings')}</p>
+              <p className="mt-1 text-3xl text-brand-darkblue font-candu tracking-wide">{stats.earnings}</p>
             </div>
-            
-            <div className="bg-white p-4 rounded-lg border border-gray-200 hover:border-green-200 transition-colors">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="p-2 bg-gray-50 rounded-md">
-                  <TreePine className="h-3.5 w-3.5 text-gray-600" />
-                </div>
-                <p className="text-xs font-medium text-gray-500">Your Trees</p>
-              </div>
-              <p className="text-xl font-semibold text-gray-900">{Math.floor(metrics.userProgress)}</p>
+            {/* Seeds collected (user) */}
+            <div className="bg-brand-grey border border-brand-darkblue px-5 py-4">
+              <p className="text-sm text-brand-darkblue">{chrome.i18n.getMessage('stats_seedsCollected')}</p>
+              <p className="mt-1 text-3xl text-brand-darkblue font-candu tracking-wide">{Math.floor(metrics.userProgress * SEEDS_PER_TREE)}</p>
+              <p className="text-xs text-brand-darkblue/80 mt-1">{chrome.i18n.getMessage('stats_seedsPerTreeRule')}</p>
             </div>
-            
-            <div className="bg-white p-4 rounded-lg border border-gray-200 hover:border-green-200 transition-colors">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="p-2 bg-gray-50 rounded-md">
-                  <Leaf className="h-3.5 w-3.5 text-gray-600" />
-                </div>
-                <p className="text-xs font-medium text-gray-500">CO₂ Saved</p>
-              </div>
-              <p className="text-xl font-semibold text-gray-900">{metrics.personalCo2Saved.toFixed(1)}kg</p>
-            </div>
-  </div>
+          </div>
 
-  {/* Referral Stats Section */}
-  <div className="mt-5 bg-white p-4 rounded-lg border border-gray-200 hover:border-green-200 transition-colors">
-	<div className="flex items-center gap-3 mb-3">
-	  <div className="p-2 bg-gray-50 rounded-md">
-		<Users className="h-3.5 w-3.5 text-gray-600" />
-	  </div>
-	  <p className="text-sm font-medium text-gray-900">Referral Impact</p>
-	</div>
-	
-	<div className="grid grid-cols-2 gap-4">
-	  <div>
-		<p className="text-xs text-gray-500">Friends Joined</p>
-		<p className="text-xl font-semibold text-gray-900">
-		  {metrics.referralCount || 0}
-		</p>
-	  </div>
-	  <div>
-		<p className="text-xs text-gray-500">Bonus Seeds</p>
-		<p className="text-xl font-semibold text-gray-900">
-		  {(metrics.referralCount || 0) * 10}
-		</p>
-	  </div>
-	</div>
-  </div>
-  </div>
-  </DialogContent>
-  </Dialog>
-	);
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
 };
