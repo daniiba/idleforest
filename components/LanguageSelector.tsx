@@ -7,8 +7,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Globe } from 'lucide-react';
+import { useI18n } from "../context/I18nProvider";
 
 const LanguageSelector: React.FC = () => {
+  const { lang, setLang } = useI18n();
   const languages = [
     { code: 'en', name: 'English' },
     { code: 'es', name: 'Español' },
@@ -29,11 +31,12 @@ const LanguageSelector: React.FC = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        {languages.map((lang) => (
+        {languages.map((langOption) => (
           <DropdownMenuItem 
-            key={lang.code}
+            key={langOption.code}
+            onClick={() => setLang(langOption.code as any)}
           >
-            {lang.name}
+            <span className={lang === langOption.code ? 'font-semibold' : ''}>{langOption.name}</span>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

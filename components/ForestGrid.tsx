@@ -6,6 +6,8 @@ import { Storage } from "@plasmohq/storage"
 import { sendToBackground } from "@plasmohq/messaging"
 import browser from "webextension-polyfill";
 import logoUrl from "url:~assets/logo.png";
+import "../lib/i18nOverride";
+import { I18nProvider, useI18n } from "../context/I18nProvider";
 
 interface HelpTasks {
   shared: boolean;
@@ -48,13 +50,14 @@ const getStoreUrl = () => {
 };
 
 const storage = new Storage({area:"local"})
-const ForestGrid: React.FC = () => {
+const ForestGridContent: React.FC = () => {
   // State declarations remain the same
   const [stats, setStats] = useState<any>({ 
     requestsTotal: 0, 
     earnings: "$0.00", 
     publicKey: "" 
   });
+  const { lang } = useI18n();
   const [helpTasks, setHelpTasks] = useState<HelpTasks>({ shared: false, rated: false });
   const [userLifetimeRequests, setUserLifetimeRequests] = useState(0);
   const { user, profile, team, referralStats, referralCode, loading } = useAuth();
@@ -235,7 +238,7 @@ const ForestGrid: React.FC = () => {
   const hasUncompletedTasks = !helpTasks.shared || !helpTasks.rated;
 
   return (
-    <div className="w-[560px] mx-auto bg-brand-grey">
+    <div key={lang} className="w-[560px] mx-auto bg-brand-grey">
       <Card className="border border-brand-grey bg-brand-grey rounded-none">
         <CardContent className="p-6">
           {/* Header with icons */}
@@ -360,4 +363,12 @@ const ForestGrid: React.FC = () => {
   );
 };
 
-export default ForestGrid;
+const ForestGridWrapper: React.FC = () => {
+  return (
+    <I18nProvider>
+      <ForestGridContent />
+    </I18nProvider>
+  );
+};
+
+export default ForestGridWrapper;
