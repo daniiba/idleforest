@@ -38,13 +38,24 @@ function resolvePreferredLanguage(): string {
 
 let currentLang = resolvePreferredLanguage();
 
-function interpolate(message: string, substitutions?: (string | number)[]): string {
+function interpolate(message: string, substitutions?: (string | number)[], placeholderMap?: Record<string, number>): string {
   if (!substitutions || substitutions.length === 0) return message;
   let out = message;
+  // Replace positional placeholders like $1$, $2$
   substitutions.forEach((val, idx) => {
     const re = new RegExp(`\\$${idx + 1}\\$`, "g");
     out = out.replace(re, String(val));
   });
+  // Replace named placeholders like $handle$, $date$
+  if (placeholderMap) {
+    for (const [name, pos] of Object.entries(placeholderMap)) {
+      const re = new RegExp(`\\$${name}\\$`, "g");
+      const sub = substitutions[pos - 1];
+      if (sub != null) {
+        out = out.replace(re, String(sub));
+      }
+    }
+  }
   return out;
 }
 
@@ -53,7 +64,23 @@ function getFromBundle(key: string, substitutions?: any[]): string | undefined {
   const entry = bundle?.[key];
   const msg = entry?.message as string | undefined;
   if (!msg) return undefined;
-  return interpolate(msg, substitutions);
+  // Build placeholder name -> position map from entry.placeholders if present
+  let placeholderMap: Record<string, number> | undefined
+  const ph = entry?.placeholders as Record<string, { content?: string }> | undefined
+  if (ph) {
+    placeholderMap = {}
+    for (const [name, meta] of Object.entries(ph)) {
+      const content = meta?.content || ""
+      const match = content.match(/^\$(\d+)$/)
+      if (match) {
+        const pos = parseInt(match[1], 10)
+        if (!Number.isNaN(pos)) {
+          placeholderMap[name] = pos
+        }
+      }
+    }
+  }
+  return interpolate(msg, substitutions, placeholderMap);
 }
 
 // Override only if chrome.i18n exists

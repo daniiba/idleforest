@@ -97,6 +97,15 @@ const start = async () => {
 
 browser.runtime.onInstalled.addListener(async function (details) {
   if (details.reason === 'install') {
+    // Record the install timestamp once so we can compute how long the extension has been installed
+    try {
+      const existing = await storage.get('install_timestamp')
+      if (!existing) {
+        await storage.set('install_timestamp', new Date().toISOString())
+      }
+    } catch (e) {
+      console.warn('Failed to set install timestamp', e)
+    }
     // Check if install page is already open
     const tabs = await browser.tabs.query({url: 'https://idleforest.com/welcome'});
     

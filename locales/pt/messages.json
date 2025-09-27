@@ -102,6 +102,15 @@
   "auth_enterDisplayName": { "message": "Digite seu nome de exibição", "description": "auth.enterDisplayName" },
   "auth_creatingAccount": { "message": "Criando conta...", "description": "auth.creatingAccount" },
   "auth_loggingIn": { "message": "Entrando...", "description": "auth.loggingIn" },
+  "auth_resetPassword": { "message": "Redefinir senha", "description": "auth.resetPassword" },
+  "auth_resetPasswordDesc": { "message": "Insira uma nova senha para concluir a redefinição.", "description": "auth.resetPasswordDesc" },
+  "auth_newPassword": { "message": "Nova senha", "description": "auth.newPassword" },
+  "auth_enterNewPassword": { "message": "Insira a nova senha", "description": "auth.enterNewPassword" },
+  "auth_confirmPassword": { "message": "Confirmar senha", "description": "auth.confirmPassword" },
+  "auth_updatePassword": { "message": "Atualizar senha", "description": "auth.updatePassword" },
+  "auth_forgotPassword": { "message": "Esqueceu a senha?", "description": "auth.forgotPassword" },
+  "auth_sending": { "message": "Enviando...", "description": "auth.sending" },
+  "auth_checkEmailReset": { "message": "Verifique seu e-mail para o link de redefinição de senha.", "description": "auth.checkEmailReset" },
   "promo_signup_title": {
     "message": "Ganhe uma Árvore Grátis!"
   },

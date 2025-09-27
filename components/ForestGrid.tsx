@@ -26,6 +26,7 @@ import PlantingTab from './tabs/PlantingTab';
 import { MellowtelAnimation } from './MellowtelAnimation';
 import { useAuth } from "~context/AuthProvider";
 import ShareModal from './ShareModal';
+import RatePromptModal from './RatePromptModal';
 import LanguageSelector from './LanguageSelector';
 import Promo from './Promo';
 
@@ -68,6 +69,7 @@ const ForestGridContent: React.FC = () => {
   const [showStats, setShowStats] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showRatePrompt, setShowRatePrompt] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('planting');
 
   // Effects and handlers remain the same
@@ -94,6 +96,17 @@ const ForestGridContent: React.FC = () => {
     getMellowtelStatus()
   }, []);
 
+  // Ensure we have a fallback timestamp for users installed before background set it
+  useEffect(() => {
+    const ensureFirstSeen = async () => {
+      const existing = await storage.get('install_timestamp')
+      if (!existing) {
+        await storage.set('install_timestamp', new Date().toISOString())
+      }
+    }
+    void ensureFirstSeen()
+  }, [])
+
   const handleOptIn = async () => {
     try {
       const mellowtel = new Mellowtel(process.env.PLASMO_PUBLIC_MELLOWTEL);
@@ -116,12 +129,21 @@ const ForestGridContent: React.FC = () => {
 
   const shareText = (platform: string) => {
     const handle = platform === 'bluesky' ? '@idleforest.bsky.social' : '@IdleForestTree';
-    return chrome.i18n.getMessage('share_social_text', [handle]);
+    const msg = chrome.i18n.getMessage('share_social_text', [handle]);
+    // Fallback: if named placeholder wasn't interpolated, replace it manually
+    if (msg && msg.includes('$handle$')) {
+      return msg.replace(/\$handle\$/g, handle);
+    }
+    return msg;
   };
 
   const handleShare = async (platform: string) => {
-    // Send share event to background
-   
+    // Send share event to background for reliable tracking
+    try {
+      await sendToBackground({ name: "share" as any, body: { platform } })
+    } catch (e) {
+      console.warn("Failed to send share event to background", e)
+    }
     const text = shareText(platform);
     let baseUrl = '';
 
@@ -149,6 +171,11 @@ const ForestGridContent: React.FC = () => {
   };
 
   const handleRate = async () => {
+    try {
+      await sendToBackground({ name: "rate" as any, body: { url: getStoreUrl() } })
+    } catch (e) {
+      console.warn("Failed to send rate event to background", e)
+    }
     window.open(getStoreUrl(), '_blank');
     const newHelpTasks = { ...helpTasks, rated: true };
     setHelpTasks(newHelpTasks);
@@ -236,6 +263,40 @@ const ForestGridContent: React.FC = () => {
   const personalCo2Saved = userProgress * CO2_PER_TREE;
 
   const hasUncompletedTasks = !helpTasks.shared || !helpTasks.rated;
+
+  // Rate prompt conditions
+  useEffect(() => {
+    const maybeShowRatePrompt = async () => {
+      try {
+        // Do not show if already rated or already seen
+        if (helpTasks.rated) return;
+        const seen = await storage.get('rate_prompt_seen');
+        if (seen) return;
+
+        // Time condition: installed > 14 days
+        const installTs = await storage.get('install_timestamp');
+        const installedAt = installTs ? new Date(installTs).getTime() : Date.now();
+        const twoWeeksMs = 14 * 24 * 60 * 60 * 1000;
+        const longEnough = Date.now() - installedAt >= twoWeeksMs;
+
+        // Seeds condition: at least 25 seeds
+        const seeds = Math.floor(metrics.userProgress * SEEDS_PER_TREE);
+        const enoughSeeds = seeds >= 25;
+
+        if (longEnough && enoughSeeds) {
+          setShowRatePrompt(true);
+          // Mark as seen immediately so we don't show again in future sessions
+          await storage.set('rate_prompt_seen', true);
+        }
+      } catch (e) {
+        console.warn('Failed to evaluate rate prompt conditions', e);
+      }
+    };
+
+    // Only evaluate after metrics computed
+    maybeShowRatePrompt();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [helpTasks.rated, metrics.userProgress]);
 
   return (
     <div key={lang} className="w-[560px] mx-auto bg-brand-grey">
@@ -358,6 +419,12 @@ const ForestGridContent: React.FC = () => {
       <AuthModal
         open={showAuthModal}
         onOpenChange={setShowAuthModal}
+      />
+
+      <RatePromptModal
+        open={showRatePrompt}
+        onOpenChange={setShowRatePrompt}
+        onRate={handleRate}
       />
     </div>
   );

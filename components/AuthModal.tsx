@@ -13,106 +13,123 @@ import { Storage } from "@plasmohq/storage";
 import browser from "webextension-polyfill";
 
 const getRedirectUrl = () => {
-	const extensionId = process.env.NODE_ENV === 'development' 
-    ? 'mhbegikigmopbapdpdpiclehfpbncpoc'  // Dev ID
-    : 'ofdclafhpmccdddnmfalihgkahgiomjk';  // Prod ID
-	return `chrome-extension://${extensionId}/options.html`;
+    const extensionId = process.env.NODE_ENV === 'development'
+      ? 'mhbegikigmopbapdpdpiclehfpbncpoc'  // Dev ID
+      : 'ofdclafhpmccdddnmfalihgkahgiomjk'; // Prod ID
+    return `https://idleforest.com/extension-auth`;
 };
 
 
 export const AuthModal: React.FC<AuthModalProps> = ({ open, onOpenChange }) => {
-	const { mellowtel } = useAuth(); // Get mellowtel from auth context
-   
-	const queryClient = useQueryClient();
-	const storage = new Storage({ area: "local" });
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [displayName, setDisplayName] = useState("");
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState("");
-	const [success, setSuccess] = useState("");
+    const { mellowtel } = useAuth();
+    const queryClient = useQueryClient();
+    const storage = new Storage({ area: "local" });
 
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [displayName, setDisplayName] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
+    const [resetSending, setResetSending] = useState(false);
 
-	const handleAuth = async (type: "signup" | "login") => {
-		try {
-			setLoading(true);
-			setError("");
-			setSuccess("");
-	
-			if (type === "signup") {
-				// Get stored referral code if any
-				const referralCode = await storage.get('referralCode');
-				
-				const { error, data } = await supabase.auth.signUp({ 
-					email, 
-					password,
-					options: {
-						data: {
-							display_name: displayName,
-							referral_code: referralCode || null
-						},
-					}
-				});
-	
-				if (error) {
-					setError(error.message);
-					return;
-				}
+    const handleAuth = async (type: "signup" | "login") => {
+      try {
+        setLoading(true);
+        setError("");
+        setSuccess("");
 
-				// Clear the pending referral code after successful signup
-				if (referralCode) {
-					await storage.remove('referralCode');
-				}
+        if (type === "signup") {
+          const referralCode = await storage.get("referralCode");
 
-				// After successful signup, connect node if it exists
-				const nodeId = await mellowtel.getNodeId();
-				if (nodeId && data?.user?.id) {
-					await supabase
-						.from('nodes')
-						.update({ user_id: data.user.id })
-						.eq('node_identifier', nodeId);
-				}
+          const { error, data } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+              data: {
+                display_name: displayName,
+                referral_code: referralCode || null
+              },
+              emailRedirectTo: getRedirectUrl()
+            }
+          });
 
-				queryClient.invalidateQueries({ queryKey: ['session'] });
-				onOpenChange(false);
-	
-			} else {
-				const { error } = await supabase.auth.signInWithPassword({ 
-					email, 
-					password 
-				});
-	
-				if (error) {
-					setError(error.message);
-				} else {
-					// After successful login, connect node if it exists
-					const nodeId = await mellowtel.getNodeId();
-					const { data: existingNode } = await supabase
-						.from('nodes')
-						.select('node_identifier, user_id')
-						.eq('node_identifier', nodeId)
-						.single();
-	
-					if (existingNode && !existingNode.user_id) {
-						const { data: { session } } = await supabase.auth.getSession();
-						if (session?.user?.id) {
-							await supabase
-								.from('nodes')
-								.update({ user_id: session.user.id })
-								.eq('node_identifier', nodeId);
-						}
-					}
-	
-					queryClient.invalidateQueries({ queryKey: ['session'] });
-					onOpenChange(false);
-				}
-			}
-		} catch (err) {
-			setError(err.message);
-		} finally {
-			setLoading(false);
-		}
-	};
+          if (error) {
+            setError(error.message);
+            return;
+          }
+
+          if (referralCode) {
+            await storage.remove("referralCode");
+          }
+
+          const nodeId = await mellowtel.getNodeId();
+          if (nodeId && data?.user?.id) {
+            await supabase
+              .from("nodes")
+              .update({ user_id: data.user.id })
+              .eq("node_identifier", nodeId);
+          }
+
+          queryClient.invalidateQueries({ queryKey: ["session"] });
+          // Keep modal open and prompt user to verify email
+          setSuccess(chrome.i18n?.getMessage("auth_checkEmailVerify") || "Check your email to verify your account.");
+        } else {
+          const { error } = await supabase.auth.signInWithPassword({ email, password });
+          if (error) {
+            setError(error.message);
+          } else {
+            const nodeId = await mellowtel.getNodeId();
+            const { data: existingNode } = await supabase
+              .from("nodes")
+              .select("node_identifier, user_id")
+              .eq("node_identifier", nodeId)
+              .single();
+
+            if (existingNode && !existingNode.user_id) {
+              const { data: { session } } = await supabase.auth.getSession();
+              if (session?.user?.id) {
+                await supabase
+                  .from("nodes")
+                  .update({ user_id: session.user.id })
+                  .eq("node_identifier", nodeId);
+              }
+            }
+
+            queryClient.invalidateQueries({ queryKey: ["session"] });
+            onOpenChange(false);
+          }
+        }
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err);
+        setError(message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const handleResetPassword = async () => {
+      try {
+        setError("");
+        setSuccess("");
+        if (!email) {
+          setError(chrome.i18n?.getMessage("auth_enterEmail") || "Please enter your email above first.");
+          return;
+        }
+        setResetSending(true);
+        const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: getRedirectUrl() });
+        if (error) {
+          setError(error.message);
+          return;
+        }
+        setSuccess(chrome.i18n?.getMessage("auth_checkEmailReset") || "Check your email for a password reset link.");
+      } catch (err) {
+        const message = err instanceof Error ? err.message : String(err);
+        setError(message);
+      } finally {
+        setResetSending(false);
+      }
+    };
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
@@ -220,6 +237,21 @@ export const AuthModal: React.FC<AuthModalProps> = ({ open, onOpenChange }) => {
 							>
 								{loading ? chrome.i18n.getMessage("auth_loggingIn") : chrome.i18n.getMessage("auth_login")}
 							</Button>
+							<div className="flex items-center justify-between text-sm">
+								<button
+									type="button"
+									className="text-brand-darkblue underline"
+									onClick={handleResetPassword}
+									disabled={resetSending}
+								>
+									{resetSending ? "Sending..." : "Forgot password?"}
+								</button>
+							</div>
+							{success && (
+								<Alert className="my-2">
+									<AlertDescription className="text-center">{success}</AlertDescription>
+								</Alert>
+							)}
 						</div>
 					</TabsContent>
 				</Tabs>

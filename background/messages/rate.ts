@@ -1,18 +1,16 @@
 import type { PlasmoMessaging } from "@plasmohq/messaging"
 import { Storage } from "@plasmohq/storage"
 
-// Keep a single Storage instance in background
 const storage = new Storage({ area: "local" })
 const STORAGE_KEY = "idleforest_help_tasks"
 
 const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
   try {
-    const { platform } = req.body || {}
-    console.log("Share event:", platform)
+    const { url } = req.body || {}
+    console.log("Rate event for:", url)
 
-    // Read existing help tasks state
     const raw = await storage.get(STORAGE_KEY)
-    let state: { shared: boolean; rated: boolean; shareHistory?: Array<{ platform: string; at: string }> } = {
+    let state: { shared: boolean; rated: boolean; rateHistory?: Array<{ url?: string; at: string }> } = {
       shared: false,
       rated: false
     }
@@ -24,13 +22,12 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
       }
     }
 
-    // Update state to mark as shared and append history
     const updated = {
       ...state,
-      shared: true,
-      shareHistory: [
-        ...(state.shareHistory || []),
-        { platform: String(platform || "unknown"), at: new Date().toISOString() }
+      rated: true,
+      rateHistory: [
+        ...(state.rateHistory || []),
+        { url: url ? String(url) : undefined, at: new Date().toISOString() }
       ]
     }
 
@@ -38,7 +35,7 @@ const handler: PlasmoMessaging.MessageHandler = async (req, res) => {
 
     res.send({ success: true })
   } catch (error) {
-    console.error("Error handling share event:", error)
+    console.error("Error handling rate event:", error)
     res.send({ success: false, error: String(error) })
   }
 }

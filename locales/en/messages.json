@@ -37,7 +37,7 @@
   "share_shareOnX": { "message": "X (Twitter)", "description": "share.shareOnX" },
   "share_shareOnBluesky": { "message": "Bluesky", "description": "share.shareOnBluesky" },
   "share_shareOnWhatsapp": { "message": "WhatsApp", "description": "share.shareOnWhatsapp" },
-  "share_social_text": { "message": "I'm growing a forest while browsing with $handle$! Join me in making a difference - it's completely free and automatic at https://idleforest.com.", "description": "share.social_text", "placeholders": { "handle": { "content": "$1$" } } },
+  "share_social_text": { "message": "I'm growing a forest while browsing with $handle$! Join me in making a difference - it's completely free and automatic at https://idleforest.com.", "description": "share.social_text", "placeholders": { "handle": { "content": "$1" } } },
   "planting_inactiveMessage": { "message": "Idle Forest is inactive. Enable it to start growing your forest!", "description": "planting.inactiveMessage" },
   "planting_growingMessage": { "message": "Growing seeds while you browse...", "description": "planting.growingMessage" },
   "teamCreation_title": { "message": "Create a Team", "description": "teamCreation.title" },
@@ -46,7 +46,7 @@
   "teamCreation_createButton": { "message": "Create Team", "description": "teamCreation.createButton" },
   "teamCreation_cancelButton": { "message": "Cancel", "description": "teamCreation.cancelButton" },
   "profile_treesPlanted": { "message": "Trees Planted", "description": "profile.treesPlanted" },
-  "profile_joinedOn": { "message": "Joined On $date$", "description": "profile.joinedOn", "placeholders": { "date": { "content": "$1$" } } },
+  "profile_joinedOn": { "message": "Joined On $date$", "description": "profile.joinedOn", "placeholders": { "date": { "content": "$1" } } },
   "profile_displayName": { "message": "Display Name", "description": "profile.displayName" },
   "profile_logout": { "message": "Logout", "description": "profile.logout" },
   "profile_loggingOut": { "message": "Logging out...", "description": "profile.loggingOut" },
@@ -72,7 +72,7 @@
   "team_availableTeams": { "message": "Available Teams", "description": "team.availableTeams" },
   "team_teamMembers": { "message": "Team Members", "description": "team.teamMembers" },
   "team_totalPoints": { "message": "Total Points", "description": "team.totalPoints" },
-  "team_joinedOn": { "message": "Joined on $date$", "description": "team.joinedOn", "placeholders": { "date": { "content": "$1$" } } },
+  "team_joinedOn": { "message": "Joined on $date$", "description": "team.joinedOn", "placeholders": { "date": { "content": "$1" } } },
   "team_otherAvailableTeams": { "message": "Other available teams", "description": "team.otherAvailableTeams" },
   "team_teamName": { "message": "Team name", "description": "team.teamName" },
   "team_created": { "message": "Created", "description": "team.created" },
@@ -89,7 +89,7 @@
   "referral_total_referrals": { "message": "Total Referrals", "description": "referral.total_referrals" },
   "referral_total_referral_requests": { "message": "Total Referral Requests", "description": "referral.total_referral_requests" },
   "referral_your_code": { "message": "Your Referral Code", "description": "referral.your_code" },
-  "referral_usedTimes": { "message": "Used $count$ times since $date$", "description": "referral.usedTimes", "placeholders": { "count": { "content": "$1$" }, "date": { "content": "$2$" } } },
+  "referral_usedTimes": { "message": "Used $count$ times since $date$", "description": "referral.usedTimes", "placeholders": { "count": { "content": "$1" }, "date": { "content": "$2" } } },
   "referral_no_referral_code": { "message": "No referral code generated yet", "description": "referral.no_referral_code" },
   "referral_generate_referral_code": { "message": "Generate Referral Code", "description": "referral.generate_referral_code" },
   "referral_noReferralCode": { "message": "No referral code generated yet", "description": "referral.noReferralCode" },
@@ -105,6 +105,17 @@
   "auth_enterDisplayName": { "message": "Enter your display name", "description": "auth.enterDisplayName" },
   "auth_creatingAccount": { "message": "Creating account...", "description": "auth.creatingAccount" },
   "auth_loggingIn": { "message": "Logging in...", "description": "auth.loggingIn" },
+  "auth_resetPassword": { "message": "Reset Password", "description": "auth.resetPassword" },
+  "auth_resetPasswordDesc": { "message": "Enter a new password to complete the reset.", "description": "auth.resetPasswordDesc" },
+  "auth_newPassword": { "message": "New Password", "description": "auth.newPassword" },
+  "auth_enterNewPassword": { "message": "Enter new password", "description": "auth.enterNewPassword" },
+  "auth_confirmPassword": { "message": "Confirm Password", "description": "auth.confirmPassword" },
+  "auth_updatePassword": { "message": "Update Password", "description": "auth.updatePassword" },
+  "auth_forgotPassword": { "message": "Forgot password?", "description": "auth.forgotPassword" },
+  "auth_sending": { "message": "Sending...", "description": "auth.sending" },
+  "auth_checkEmailReset": { "message": "Check your email for a password reset link.", "description": "auth.checkEmailReset" },
+  "auth_checkEmailVerify": { "message": "Check your email to verify your account.", "description": "auth.checkEmailVerify" },
+  "auth_emailVerified": { "message": "Your email is verified. You can close this tab and use the extension.", "description": "auth.emailVerified" },
   "promo_signup_title": {
     "message": "The first tree is on us!"
   },
@@ -133,4 +144,9 @@
     "message": "Trees from referrals",
     "description": "referral.promo_trees_earned"
   }
+  ,
+  "rateModal_title": { "message": "Enjoying Idle Forest?", "description": "rateModal.title" },
+  "rateModal_description": { "message": "You've been planting with us for a while. Would you mind rating the extension?", "description": "rateModal.description" },
+  "rateModal_rateNow": { "message": "Rate Now", "description": "rateModal.rateNow" },
+  "rateModal_noThanks": { "message": "No thanks", "description": "rateModal.noThanks" }
 }

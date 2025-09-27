@@ -37,7 +37,7 @@
   "share_shareOnX": { "message": "X (Twitter)", "description": "share.shareOnX" },
   "share_shareOnBluesky": { "message": "Bluesky", "description": "share.shareOnBluesky" },
   "share_shareOnWhatsapp": { "message": "WhatsApp", "description": "share.shareOnWhatsapp" },
-  "share_social_text": { "message": "Je fais pousser une forêt en naviguant avec $handle$ ! Rejoignez-moi pour faire la différence - c'est entièrement gratuit et automatique sur https://idleforest.com.", "description": "share.social_text", "placeholders": { "handle": { "content": "$1$" } } },
+  "share_social_text": { "message": "Je fais pousser une forêt en naviguant avec $handle$ ! Rejoignez-moi pour faire la différence - c'est entièrement gratuit et automatique sur https://idleforest.com.", "description": "share.social_text", "placeholders": { "handle": { "content": "$1" } } },
   "planting_inactiveMessage": { "message": "Idle Forest est inactif. Activez-le pour commencer à faire pousser votre forêt !", "description": "planting.inactiveMessage" },
   "planting_growingMessage": { "message": "Cultivant des graines pendant que vous naviguez...", "description": "planting.growingMessage" },
   "teamCreation_title": { "message": "Créer une Équipe", "description": "teamCreation.title" },
@@ -46,7 +46,7 @@
   "teamCreation_createButton": { "message": "Créer l'Équipe", "description": "teamCreation.createButton" },
   "teamCreation_cancelButton": { "message": "Annuler", "description": "teamCreation.cancelButton" },
   "profile_treesPlanted": { "message": "Arbres Plantés", "description": "profile.treesPlanted" },
-  "profile_joinedOn": { "message": "Rejoint le $date$", "description": "profile.joinedOn", "placeholders": { "date": { "content": "$1$" } } },
+  "profile_joinedOn": { "message": "Rejoint le $date$", "description": "profile.joinedOn", "placeholders": { "date": { "content": "$1" } } },
   "profile_displayName": { "message": "Nom d'affichage", "description": "profile.displayName" },
   "profile_logout": { "message": "Déconnexion", "description": "profile.logout" },
   "profile_loggingOut": { "message": "Déconnexion en cours...", "description": "profile.loggingOut" },
@@ -72,7 +72,7 @@
   "team_availableTeams": { "message": "Équipes Disponibles", "description": "team.availableTeams" },
   "team_teamMembers": { "message": "Membres de l'Équipe", "description": "team.teamMembers" },
   "team_totalPoints": { "message": "Points Totaux", "description": "team.totalPoints" },
-  "team_joinedOn": { "message": "Rejoint le $date$", "description": "team.joinedOn", "placeholders": { "date": { "content": "$1$" } } },
+  "team_joinedOn": { "message": "Rejoint le $date$", "description": "team.joinedOn", "placeholders": { "date": { "content": "$1" } } },
   "team_otherAvailableTeams": { "message": "Autres équipes disponibles", "description": "team.otherAvailableTeams" },
   "team_teamName": { "message": "Nom de l'équipe", "description": "team.teamName" },
   "team_created": { "message": "Créé le", "description": "team.created" },
@@ -87,7 +87,7 @@
   "referral_referralStats": { "message": "Statistiques de Parrainage", "description": "referral.referralStats" },
   "referral_totalReferrals": { "message": "Total des Parrainages", "description": "referral.totalReferrals" },
   "referral_totalReferralRequests": { "message": "Total des Demandes de Parrainage", "description": "referral.totalReferralRequests" },
-  "referral_usedTimes": { "message": "Utilisé $count$ fois depuis $date$", "description": "referral.usedTimes", "placeholders": { "count": { "content": "$1$" }, "date": { "content": "$2$" } } },
+  "referral_usedTimes": { "message": "Utilisé $count$ fois depuis $date$", "description": "referral.usedTimes", "placeholders": { "count": { "content": "$1" }, "date": { "content": "$2" } } },
   "referral_noReferralCode": { "message": "Aucun code de parrainage généré pour l'instant", "description": "referral.noReferralCode" },
   "referral_generateReferralCode": { "message": "Générer un Code de Parrainage", "description": "referral.generateReferralCode" },
   "auth_login": { "message": "Connexion", "description": "auth.login" },
@@ -102,6 +102,17 @@
   "auth_enterDisplayName": { "message": "Entrez votre nom d'affichage", "description": "auth.enterDisplayName" },
   "auth_creatingAccount": { "message": "Création du compte...", "description": "auth.creatingAccount" },
   "auth_loggingIn": { "message": "Connexion...", "description": "auth.loggingIn" },
+  "auth_checkEmailVerify": { "message": "Vérifiez votre e-mail pour vérifier votre compte.", "description": "auth.checkEmailVerify" },
+  "auth_emailVerified": { "message": "Votre e-mail est vérifié. Vous pouvez fermer cet onglet et utiliser l'extension.", "description": "auth.emailVerified" },
+  "auth_resetPassword": { "message": "Réinitialiser le mot de passe", "description": "auth.resetPassword" },
+  "auth_resetPasswordDesc": { "message": "Entrez un nouveau mot de passe pour terminer la réinitialisation.", "description": "auth.resetPasswordDesc" },
+  "auth_newPassword": { "message": "Nouveau mot de passe", "description": "auth.newPassword" },
+  "auth_enterNewPassword": { "message": "Entrez le nouveau mot de passe", "description": "auth.enterNewPassword" },
+  "auth_confirmPassword": { "message": "Confirmer le mot de passe", "description": "auth.confirmPassword" },
+  "auth_updatePassword": { "message": "Mettre à jour le mot de passe", "description": "auth.updatePassword" },
+  "auth_forgotPassword": { "message": "Mot de passe oublié ?", "description": "auth.forgotPassword" },
+  "auth_sending": { "message": "Envoi...", "description": "auth.sending" },
+  "auth_checkEmailReset": { "message": "Vérifiez votre e-mail pour le lien de réinitialisation du mot de passe.", "description": "auth.checkEmailReset" },
   "promo_signup_title": {
     "message": "Obtenez un Arbre Gratuit !"
   },
@@ -114,4 +125,9 @@
   "promo_referral_description": {
     "message": "Invitez 3 amis, et nous planterons un arbre pour vous !"
   }
+  ,
+  "rateModal_title": { "message": "Vous aimez Idle Forest ?", "description": "rateModal.title" },
+  "rateModal_description": { "message": "Vous plantez avec nous depuis un moment. Pourriez-vous noter l'extension ?", "description": "rateModal.description" },
+  "rateModal_rateNow": { "message": "Noter maintenant", "description": "rateModal.rateNow" },
+  "rateModal_noThanks": { "message": "Non merci", "description": "rateModal.noThanks" }
 }

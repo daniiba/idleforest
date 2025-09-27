@@ -37,7 +37,7 @@
   "share_shareOnX": { "message": "X (Twitter)", "description": "share.shareOnX" },
   "share_shareOnBluesky": { "message": "Bluesky", "description": "share.shareOnBluesky" },
   "share_shareOnWhatsapp": { "message": "WhatsApp", "description": "share.shareOnWhatsapp" },
-  "share_social_text": { "message": "Ich lasse mit $handle$ einen Wald wachsen, während ich browse! Hilf mir, einen Unterschied zu machen - es ist kostenlos und automatisch unter https://idleforest.com.", "description": "share.social_text", "placeholders": { "handle": { "content": "$1$" } } },
+  "share_social_text": { "message": "Ich lasse mit $handle$ einen Wald wachsen, während ich browse! Hilf mir, einen Unterschied zu machen - es ist kostenlos und automatisch unter https://idleforest.com.", "description": "share.social_text", "placeholders": { "handle": { "content": "$1" } } },
   "planting_inactiveMessage": { "message": "Idle Forest ist inaktiv. Aktiviere es, um deinen Wald wachsen zu lassen!", "description": "planting.inactiveMessage" },
   "planting_growingMessage": { "message": "Samen wachsen während du surfst...", "description": "planting.growingMessage" },
   "teamCreation_title": { "message": "Team erstellen", "description": "teamCreation.title" },
@@ -46,7 +46,7 @@
   "teamCreation_createButton": { "message": "Team erstellen", "description": "teamCreation.createButton" },
   "teamCreation_cancelButton": { "message": "Abbrechen", "description": "teamCreation.cancelButton" },
   "profile_treesPlanted": { "message": "Gepflanzte Bäume", "description": "profile.treesPlanted" },
-  "profile_joinedOn": { "message": "Beigetreten am $date$", "description": "profile.joinedOn", "placeholders": { "date": { "content": "$1$" } } },
+  "profile_joinedOn": { "message": "Beigetreten am $date$", "description": "profile.joinedOn", "placeholders": { "date": { "content": "$1" } } },
   "profile_displayName": { "message": "Anzeigename", "description": "profile.displayName" },
   "profile_logout": { "message": "Abmelden", "description": "profile.logout" },
   "profile_loggingOut": { "message": "Abmelden...", "description": "profile.loggingOut" },
@@ -72,7 +72,7 @@
   "team_availableTeams": { "message": "Verfügbare Teams", "description": "team.availableTeams" },
   "team_teamMembers": { "message": "Teammitglieder", "description": "team.teamMembers" },
   "team_totalPoints": { "message": "Gesamtpunkte", "description": "team.totalPoints" },
-  "team_joinedOn": { "message": "Beigetreten am $date$", "description": "team.joinedOn", "placeholders": { "date": { "content": "$1$" } } },
+  "team_joinedOn": { "message": "Beigetreten am $date$", "description": "team.joinedOn", "placeholders": { "date": { "content": "$1" } } },
   "team_otherAvailableTeams": { "message": "Andere verfügbare Teams", "description": "team.otherAvailableTeams" },
   "team_teamName": { "message": "Teamname", "description": "team.teamName" },
   "team_created": { "message": "Erstellt am", "description": "team.created" },
@@ -102,6 +102,17 @@
   "auth_enterDisplayName": { "message": "Gib deinen Anzeigenamen ein", "description": "auth.enterDisplayName" },
   "auth_creatingAccount": { "message": "Konto wird erstellt...", "description": "auth.creatingAccount" },
   "auth_loggingIn": { "message": "Anmeldung läuft...", "description": "auth.loggingIn" },
+  "auth_resetPassword": { "message": "Passwort zurücksetzen", "description": "auth.resetPassword" },
+  "auth_resetPasswordDesc": { "message": "Gib ein neues Passwort ein, um das Zurücksetzen abzuschließen.", "description": "auth.resetPasswordDesc" },
+  "auth_newPassword": { "message": "Neues Passwort", "description": "auth.newPassword" },
+  "auth_enterNewPassword": { "message": "Neues Passwort eingeben", "description": "auth.enterNewPassword" },
+  "auth_confirmPassword": { "message": "Passwort bestätigen", "description": "auth.confirmPassword" },
+  "auth_updatePassword": { "message": "Passwort aktualisieren", "description": "auth.updatePassword" },
+  "auth_forgotPassword": { "message": "Passwort vergessen?", "description": "auth.forgotPassword" },
+  "auth_sending": { "message": "Senden...", "description": "auth.sending" },
+  "auth_checkEmailReset": { "message": "Prüfe deine E-Mails für den Link zum Zurücksetzen des Passworts.", "description": "auth.checkEmailReset" },
+  "auth_checkEmailVerify": { "message": "Prüfe deine E-Mails, um dein Konto zu verifizieren.", "description": "auth.checkEmailVerify" },
+  "auth_emailVerified": { "message": "Deine E-Mail ist verifiziert. Du kannst diesen Tab schließen und die Erweiterung verwenden.", "description": "auth.emailVerified" },
   "promo_signup_title": {
     "message": "Hol dir einen kostenlosen Baum!"
   },
@@ -114,4 +125,9 @@
   "promo_referral_description": {
     "message": "Lade 3 Freunde ein, und wir pflanzen einen Baum für dich!"
   }
+  ,
+  "rateModal_title": { "message": "Gefällt dir Idle Forest?", "description": "rateModal.title" },
+  "rateModal_description": { "message": "Du pflanzt schon eine Weile mit uns. Würdest du die Erweiterung bewerten?", "description": "rateModal.description" },
+  "rateModal_rateNow": { "message": "Jetzt bewerten", "description": "rateModal.rateNow" },
+  "rateModal_noThanks": { "message": "Nein danke", "description": "rateModal.noThanks" }
 }
