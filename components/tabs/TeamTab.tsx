@@ -117,6 +117,7 @@ const TeamManagement: React.FC<TeamManagementProps> = ({ isCreator, onLeave, onD
 const TeamTab: React.FC<TeamTabProps> = ({ team }) => {
 	const [showCreateTeam, setShowCreateTeam] = useState(false);
 	const [selectedTeam, setSelectedTeam] = useState<any>(null);
+	const [showAllMembers, setShowAllMembers] = useState(false);
 	const { user } = useAuth();
 	const { data: availableTeams, isLoading } = useTeams();
 	
@@ -145,6 +146,13 @@ const TeamTab: React.FC<TeamTabProps> = ({ team }) => {
 		});
 	};
 
+	// Sort teams by member count (descending)
+	const sortedAvailableTeams = (availableTeams ?? [])
+		.slice()
+		.sort((a, b) => (b.team_members?.length || 0) - (a.team_members?.length || 0));
+
+	const otherTeamsSorted = sortedAvailableTeams.filter((t) => t.id !== team?.id);
+
 	if (!team && isLoading) {
 		return <LoadingSkeleton />;
 	}
@@ -167,7 +175,7 @@ const TeamTab: React.FC<TeamTabProps> = ({ team }) => {
 
 				<div className="space-y-4">
 					<h3 className="text-lg font-medium text-brand-darkblue">{chrome.i18n.getMessage('team_availableTeams')}</h3>
-					{availableTeams.map((availableTeam) => (
+					{sortedAvailableTeams.map((availableTeam) => (
 						<Card key={availableTeam.id} className="p-4 bg-brand-grey border border-brand-darkblue rounded-none">
 							<div className="flex items-center justify-between">
 								<div>
@@ -216,7 +224,7 @@ const TeamTab: React.FC<TeamTabProps> = ({ team }) => {
 						<div>
 							<Label className="mb-2 block text-brand-darkblue">{chrome.i18n.getMessage('team_teamMembers')}</Label>
 							<div className="space-y-2">
-								{team.team_members?.map((member) => (
+								{(showAllMembers ? team.team_members : team.team_members?.slice(0, 5))?.map((member) => (
 									<div key={member.id} className="flex items-center justify-between p-2 bg-brand-grey border border-brand-darkblue rounded-none">
 										<span>
 											{member.profiles?.display_name || 'Unknown User'}
@@ -226,9 +234,19 @@ const TeamTab: React.FC<TeamTabProps> = ({ team }) => {
 										</span>
 									</div>
 								))}
+								{(team.team_members?.length || 0) > 5 && (
+									<Button
+										variant="outline"
+										className="rounded-none uppercase font-candu tracking-wide border border-brand-darkblue"
+										onClick={() => setShowAllMembers((v) => !v)}
+									>
+										{showAllMembers
+											? (chrome.i18n.getMessage('team_showLessMembers') || 'Show less')
+											: (chrome.i18n.getMessage('team_showAllMembers') || 'Show all members')}
+									</Button>
+								)}
 							</div>
 						</div>
-						{/* Team management section */}
 						{team && (
 							<TeamManagement
 								isCreator={team.created_by === user?.id}
@@ -242,7 +260,7 @@ const TeamTab: React.FC<TeamTabProps> = ({ team }) => {
 
 			<div className="space-y-4">
 				<h3 className="text-lg font-medium text-brand-darkblue">{chrome.i18n.getMessage('team_otherAvailableTeams')}</h3>
-				{availableTeams?.filter(availableTeam => availableTeam.id !== team?.id).map((availableTeam) => (
+				{otherTeamsSorted.map((availableTeam) => (
 					<Card 
 						key={availableTeam.id} 
 						className={`p-4 cursor-pointer bg-brand-grey border border-brand-darkblue rounded-none ${selectedTeam?.id === availableTeam.id ? 'ring-2 ring-brand-darkblue' : ''}`}

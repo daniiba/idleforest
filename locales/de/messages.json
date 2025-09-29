@@ -129,5 +129,10 @@
   "rateModal_title": { "message": "Gefällt dir Idle Forest?", "description": "rateModal.title" },
   "rateModal_description": { "message": "Du pflanzt schon eine Weile mit uns. Würdest du die Erweiterung bewerten?", "description": "rateModal.description" },
   "rateModal_rateNow": { "message": "Jetzt bewerten", "description": "rateModal.rateNow" },
-  "rateModal_noThanks": { "message": "Nein danke", "description": "rateModal.noThanks" }
+  "rateModal_noThanks": { "message": "Nein danke", "description": "rateModal.noThanks" },
+  "support_title": { "message": "Brauchst du Hilfe?", "description": "support.title" },
+  "support_description": { "message": "Tritt unserem Community-Discord für Support und Updates bei.", "description": "support.description" },
+  "support_joinDiscord": { "message": "Discord beitreten", "description": "support.joinDiscord" }
+  ,
+  "navigation_socials": { "message": "Soziales", "description": "navigation.socials" }
 }

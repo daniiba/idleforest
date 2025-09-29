@@ -23,12 +23,14 @@ import ProfileTab from './tabs/ProfileTab';
 import TeamTab from './tabs/TeamTab';
 import ReferralTab from './tabs/ReferralTab';
 import PlantingTab from './tabs/PlantingTab';
+import SocialsTab from './tabs/SocialsTab';
 import { MellowtelAnimation } from './MellowtelAnimation';
 import { useAuth } from "~context/AuthProvider";
 import ShareModal from './ShareModal';
 import RatePromptModal from './RatePromptModal';
 import LanguageSelector from './LanguageSelector';
 import Promo from './Promo';
+import AlertPromo from './AlertPromo';
 
 const STORAGE_KEY = "idleforest_help_tasks";
 const COST_PER_TREE = 0.30;
@@ -63,6 +65,7 @@ const ForestGridContent: React.FC = () => {
   const [userLifetimeRequests, setUserLifetimeRequests] = useState(0);
   const { user, profile, team, referralStats, referralCode, loading } = useAuth();
   const [isMellowtelActive, setIsMellowtelActive] = useState(false);
+  const [speedMbps, setSpeedMbps] = useState<number | null>(null);
 
  
 
@@ -92,8 +95,16 @@ const ForestGridContent: React.FC = () => {
       setIsMellowtelActive(!!optIn)
     }
 
+    const loadSpeed = async () => {
+      const speed = await storage.get('speedMbps');
+      if (typeof speed === 'number') {
+        setSpeedMbps(speed);
+      }
+    }
+
     getHelpTasks()
     getMellowtelStatus()
+    loadSpeed()
   }, []);
 
   // Ensure we have a fallback timestamp for users installed before background set it
@@ -247,6 +258,8 @@ const ForestGridContent: React.FC = () => {
         return <TeamTab team={team} />;
       case 'referral':
         return <ReferralTab referralStats={referralStats} referralCode={referralCode} />;
+      case 'socials':
+        return <SocialsTab />;
       case 'planting':
         return <PlantingTab 
           isActive={isMellowtelActive}
@@ -263,6 +276,7 @@ const ForestGridContent: React.FC = () => {
   const personalCo2Saved = userProgress * CO2_PER_TREE;
 
   const hasUncompletedTasks = !helpTasks.shared || !helpTasks.rated;
+
 
   // Rate prompt conditions
   useEffect(() => {
@@ -345,6 +359,9 @@ const ForestGridContent: React.FC = () => {
           {user && <Navigation activeTab={activeTab} onTabChange={setActiveTab} />}
 
 
+        {/*   {typeof speedMbps === 'number' && speedMbps < 60 && (
+            <AlertPromo message={`Your measured speed is ${speedMbps} Mbps. For best earnings, aim for 1000 Mbps or higher.`} />
+          )} */}
           <Promo onNavigate={setActiveTab} />
           {/* Show content for non-logged-in users */}
           {!user && (

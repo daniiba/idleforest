@@ -73,7 +73,7 @@ export interface ReferralTabProps {
 	referralCode: ReferralCode | null;
 }
 
-export type TabType = "team" | "profile" | "referral" | "planting";
+export type TabType = "team" | "profile" | "referral" | "planting" | "socials";
 
 export interface NavigationProps {
 	activeTab: TabType;

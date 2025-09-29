@@ -2,7 +2,6 @@ import Mellowtel from "mellowtel";
 import { supabase } from "../core/supabase";
 import { Storage } from "@plasmohq/storage";
 import browser from "webextension-polyfill";
-
 const storage = new Storage({
   area: "local"
 })  
@@ -13,7 +12,6 @@ const updateSupabaseCount = async () => {
   try { 
     const  last_supabase_sync  = await storage.get('last_supabase_sync');
     const now = new Date();
-    console.log(last_supabase_sync,now.getTime() - new Date(last_supabase_sync).getTime() >= TWENTY_FOUR_HOURS)
     
     if (!last_supabase_sync || 
       (now.getTime() - new Date(last_supabase_sync).getTime() >= TWENTY_FOUR_HOURS)) {
@@ -34,6 +32,37 @@ const updateSupabaseCount = async () => {
     if (nodeError) {
       console.error('Error updating node:', nodeError);
       return;
+    }
+
+    // Also sync profile metadata (opt_in, last_seen, speedtest_result) if user is logged in
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const userId = session?.user?.id;
+      if (userId) {
+        const updates: Record<string, any> = { last_seen: new Date().toISOString() };
+
+        // Read optional values from local storage if set
+        const optIn = await storage.get('mellowtelOptIn');
+        if (typeof optIn === 'boolean') {
+          updates.opt_in = optIn;
+        }
+
+        const speedtestResult = await storage.get('speedMbps');
+        if (speedtestResult) {
+          updates.speedtest_result = speedtestResult;
+        }
+
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .update(updates)
+          .eq('user_id', userId);
+
+        if (profileError) {
+          console.error('Error updating profile metadata:', profileError);
+        }
+      }
+    } catch (e) {
+      console.warn('Profile sync skipped due to error or missing session', e);
     }
 
     await storage.set(

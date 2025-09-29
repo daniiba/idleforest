@@ -10,10 +10,30 @@ interface PromoProps {
 
 const Promo: React.FC<PromoProps> = ({ onNavigate }) => {
   const { t } = useTranslation();
-  const { user } = useAuth();
+  const { user, referralCode, loading } = useAuth();
 
-  const title = user ? t('promo_referral_title') : t('promo_signup_title');
-  const description = user ? t('promo_referral_description') : t('promo_signup_description');
+  // While auth is loading, hide everything to avoid flicker (e.g., signup promo flashing then disappearing)
+  if (loading) {
+    return null;
+  }
+  // Hide by default while referral code is loading to avoid flash
+  // TanStack useQuery sets data as undefined initially, then null or object after resolve
+  if (user && typeof referralCode === 'undefined') {
+    return null;
+  }
+
+  // Show referral promo only if logged in and confirmed no referral code yet
+  const showReferralPromo = !!user && referralCode === null;
+  // Show signup promo if logged out
+  const showSignupPromo = !user;
+
+  if (!showReferralPromo && !showSignupPromo) {
+    // Logged-in user who already has a referral code -> hide promo entirely
+    return null;
+  }
+
+  const title = showReferralPromo ? t('promo_referral_title') : t('promo_signup_title');
+  const description = showReferralPromo ? t('promo_referral_description') : t('promo_signup_description');
 
   const handleReferralClick = () => {
     if (onNavigate) {
@@ -28,7 +48,7 @@ const Promo: React.FC<PromoProps> = ({ onNavigate }) => {
       </div>
       <div>
         <p className="font-bold text-sm">{title}</p>
-        {user ? (
+        {showReferralPromo ? (
           <p className="text-xs cursor-pointer hover:underline" onClick={handleReferralClick}>
             {description}
           </p>

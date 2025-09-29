@@ -123,4 +123,10 @@
   "promo_referral_description": {
     "message": "Convide 3 amigos, e nós plantaremos uma árvore para você!"
   }
+  ,
+  "support_title": { "message": "Precisa de ajuda?", "description": "support.title" },
+  "support_description": { "message": "Entre no nosso Discord da comunidade para suporte e novidades.", "description": "support.description" },
+  "support_joinDiscord": { "message": "Entrar no Discord", "description": "support.joinDiscord" }
+  ,
+  "navigation_socials": { "message": "Redes", "description": "navigation.socials" }
 }

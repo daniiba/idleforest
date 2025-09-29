@@ -148,5 +148,10 @@
   "rateModal_title": { "message": "Enjoying Idle Forest?", "description": "rateModal.title" },
   "rateModal_description": { "message": "You've been planting with us for a while. Would you mind rating the extension?", "description": "rateModal.description" },
   "rateModal_rateNow": { "message": "Rate Now", "description": "rateModal.rateNow" },
-  "rateModal_noThanks": { "message": "No thanks", "description": "rateModal.noThanks" }
+  "rateModal_noThanks": { "message": "No thanks", "description": "rateModal.noThanks" },
+  "support_title": { "message": "Need help?", "description": "support.title" },
+  "support_description": { "message": "Join our community Discord for support and updates.", "description": "support.description" },
+  "support_joinDiscord": { "message": "Join our Discord", "description": "support.joinDiscord" }
+  ,
+  "navigation_socials": { "message": "Socials", "description": "navigation.socials" }
 }
