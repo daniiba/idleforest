@@ -1,6 +1,6 @@
 {
   "extensionName": {
-    "message": "Idle forest - Plant trees for free!",
+    "message": "Idle Forest — Plant trees on autopilot",
     "description": "The name of the extension."
   },
   "extensionDescription": {
@@ -37,7 +37,7 @@
   "share_shareOnX": { "message": "X (Twitter)", "description": "share.shareOnX" },
   "share_shareOnBluesky": { "message": "Bluesky", "description": "share.shareOnBluesky" },
   "share_shareOnWhatsapp": { "message": "WhatsApp", "description": "share.shareOnWhatsapp" },
-  "share_social_text": { "message": "I'm growing a forest while browsing with $handle$! Join me in making a difference - it's completely free and automatic at https://idleforest.com.", "description": "share.social_text", "placeholders": { "handle": { "content": "$1" } } },
+  "share_social_text": { "message": "I'm growing a forest while browsing with $handle$! Join me at https://idleforest.com — it runs on autopilot.", "description": "share.social_text", "placeholders": { "handle": { "content": "$1" } } },
   "planting_inactiveMessage": { "message": "Idle Forest is inactive. Enable it to start growing your forest!", "description": "planting.inactiveMessage" },
   "planting_growingMessage": { "message": "Growing seeds while you browse...", "description": "planting.growingMessage" },
   "teamCreation_title": { "message": "Create a Team", "description": "teamCreation.title" },
@@ -117,10 +117,10 @@
   "auth_checkEmailVerify": { "message": "Check your email to verify your account.", "description": "auth.checkEmailVerify" },
   "auth_emailVerified": { "message": "Your email is verified. You can close this tab and use the extension.", "description": "auth.emailVerified" },
   "promo_signup_title": {
-    "message": "The first tree is on us!"
+    "message": "Start planting on autopilot"
   },
   "promo_signup_description": {
-    "message": "Sign up now and we'll plant your first tree for free."
+    "message": "Sign up to start planting on autopilot. We'll plant your first tree."
   },
   "promo_referral_title": {
     "message": "Grow Your Forest Faster!"

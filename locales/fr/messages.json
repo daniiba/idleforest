@@ -1,6 +1,6 @@
 {
   "extensionName": {
-    "message": "Idle Forest - Plantez des arbres gratuitement !",
+    "message": "Idle Forest — Plantez des arbres en pilotage automatique",
     "description": "The name of the extension."
   },
   "extensionDescription": {
@@ -37,7 +37,7 @@
   "share_shareOnX": { "message": "X (Twitter)", "description": "share.shareOnX" },
   "share_shareOnBluesky": { "message": "Bluesky", "description": "share.shareOnBluesky" },
   "share_shareOnWhatsapp": { "message": "WhatsApp", "description": "share.shareOnWhatsapp" },
-  "share_social_text": { "message": "Je fais pousser une forêt en naviguant avec $handle$ ! Rejoignez-moi pour faire la différence - c'est entièrement gratuit et automatique sur https://idleforest.com.", "description": "share.social_text", "placeholders": { "handle": { "content": "$1" } } },
+  "share_social_text": { "message": "Je fais pousser une forêt avec $handle$ en naviguant. Rejoignez-nous sur https://idleforest.com — c’est en pilotage automatique.", "description": "share.social_text", "placeholders": { "handle": { "content": "$1" } } },
   "planting_inactiveMessage": { "message": "Idle Forest est inactif. Activez-le pour commencer à faire pousser votre forêt !", "description": "planting.inactiveMessage" },
   "planting_growingMessage": { "message": "Cultivant des graines pendant que vous naviguez...", "description": "planting.growingMessage" },
   "teamCreation_title": { "message": "Créer une Équipe", "description": "teamCreation.title" },
@@ -114,10 +114,10 @@
   "auth_sending": { "message": "Envoi...", "description": "auth.sending" },
   "auth_checkEmailReset": { "message": "Vérifiez votre e-mail pour le lien de réinitialisation du mot de passe.", "description": "auth.checkEmailReset" },
   "promo_signup_title": {
-    "message": "Obtenez un Arbre Gratuit !"
+    "message": "Commencez à planter en pilotage automatique"
   },
   "promo_signup_description": {
-    "message": "Inscrivez-vous maintenant et nous planterons votre premier arbre gratuitement."
+    "message": "Inscrivez-vous pour commencer à planter en pilotage automatique. Nous planterons votre premier arbre."
   },
   "promo_referral_title": {
     "message": "Faites Pousser Votre Forêt Plus Vite !"

@@ -1,6 +1,6 @@
 {
   "extensionName": {
-    "message": "Idle Forest - ¡Planta árboles gratis!",
+    "message": "Idle Forest — Planta árboles en piloto automático",
     "description": "The name of the extension."
   },
   "extensionDescription": {
@@ -37,7 +37,7 @@
   "share_shareOnX": { "message": "X (Twitter)", "description": "share.shareOnX" },
   "share_shareOnBluesky": { "message": "Bluesky", "description": "share.shareOnBluesky" },
   "share_shareOnWhatsapp": { "message": "WhatsApp", "description": "share.shareOnWhatsapp" },
-  "share_social_text": { "message": "¡Estoy cultivando un bosque mientras navego con $handle$! Únete a mí para marcar la diferencia: es completamente gratis y automático en https://idleforest.com.", "description": "share.social_text", "placeholders": { "handle": { "content": "$1" } } },
+  "share_social_text": { "message": "Estoy cultivando un bosque con $handle$ mientras navego. Únete en https://idleforest.com — funciona en piloto automático.", "description": "share.social_text", "placeholders": { "handle": { "content": "$1" } } },
   "planting_inactiveMessage": { "message": "Idle Forest está inactivo. ¡Actívalo para empezar a cultivar tu bosque!", "description": "planting.inactiveMessage" },
   "planting_growingMessage": { "message": "Cultivando semillas mientras navegas...", "description": "planting.growingMessage" },
   "teamCreation_title": { "message": "Crear un Equipo", "description": "teamCreation.title" },
@@ -114,10 +114,10 @@
   "auth_checkEmailVerify": { "message": "Revisa tu correo para verificar tu cuenta.", "description": "auth.checkEmailVerify" },
   "auth_emailVerified": { "message": "Tu correo ha sido verificado. Puedes cerrar esta pestaña y usar la extensión.", "description": "auth.emailVerified" },
   "promo_signup_title": {
-    "message": "¡Consigue un Árbol Gratis!"
+    "message": "Empieza a plantar en piloto automático"
   },
   "promo_signup_description": {
-    "message": "Regístrate ahora y plantaremos tu primer árbol gratis."
+    "message": "Regístrate para empezar a plantar en piloto automático. Plantaremos tu primer árbol."
   },
   "promo_referral_title": {
     "message": "¡Haz Crecer tu Bosque Más Rápido!"

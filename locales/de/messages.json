@@ -1,6 +1,6 @@
 {
   "extensionName": {
-    "message": "Idle Forest - Pflanze Bäume kostenlos!",
+    "message": "Idle Forest — Pflanze Bäume auf Autopilot",
     "description": "The name of the extension."
   },
   "extensionDescription": {
@@ -37,7 +37,7 @@
   "share_shareOnX": { "message": "X (Twitter)", "description": "share.shareOnX" },
   "share_shareOnBluesky": { "message": "Bluesky", "description": "share.shareOnBluesky" },
   "share_shareOnWhatsapp": { "message": "WhatsApp", "description": "share.shareOnWhatsapp" },
-  "share_social_text": { "message": "Ich lasse mit $handle$ einen Wald wachsen, während ich browse! Hilf mir, einen Unterschied zu machen - es ist kostenlos und automatisch unter https://idleforest.com.", "description": "share.social_text", "placeholders": { "handle": { "content": "$1" } } },
+  "share_social_text": { "message": "Ich lasse mit $handle$ einen Wald wachsen! Mach mit auf https://idleforest.com — es läuft automatisch.", "description": "share.social_text", "placeholders": { "handle": { "content": "$1" } } },
   "planting_inactiveMessage": { "message": "Idle Forest ist inaktiv. Aktiviere es, um deinen Wald wachsen zu lassen!", "description": "planting.inactiveMessage" },
   "planting_growingMessage": { "message": "Samen wachsen während du surfst...", "description": "planting.growingMessage" },
   "teamCreation_title": { "message": "Team erstellen", "description": "teamCreation.title" },
@@ -114,10 +114,10 @@
   "auth_checkEmailVerify": { "message": "Prüfe deine E-Mails, um dein Konto zu verifizieren.", "description": "auth.checkEmailVerify" },
   "auth_emailVerified": { "message": "Deine E-Mail ist verifiziert. Du kannst diesen Tab schließen und die Erweiterung verwenden.", "description": "auth.emailVerified" },
   "promo_signup_title": {
-    "message": "Hol dir einen kostenlosen Baum!"
+    "message": "Automatisch mit dem Pflanzen starten"
   },
   "promo_signup_description": {
-    "message": "Melde dich jetzt an und wir pflanzen deinen ersten Baum kostenlos."
+    "message": "Melde dich an, um automatisch zu pflanzen. Wir pflanzen deinen ersten Baum."
   },
   "promo_referral_title": {
     "message": "Lass deinen Wald schneller wachsen!"

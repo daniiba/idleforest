@@ -1,6 +1,6 @@
 {
   "extensionName": {
-    "message": "Idle Forest - Plante árvores de graça!",
+    "message": "Idle Forest — Plante árvores no piloto automático",
     "description": "The name of the extension."
   },
   "extensionDescription": {
@@ -37,7 +37,7 @@
   "share_shareOnX": { "message": "X (Twitter)", "description": "share.shareOnX" },
   "share_shareOnBluesky": { "message": "Bluesky", "description": "share.shareOnBluesky" },
   "share_shareOnWhatsapp": { "message": "WhatsApp", "description": "share.shareOnWhatsapp" },
-  "share_social_text": { "message": "Estou cultivando uma floresta enquanto navego com $handle$! Junte-se a mim para fazer a diferença - é totalmente gratuito e automático em https://idleforest.com.", "description": "share.social_text", "placeholders": { "handle": { "content": "$1$" } } },
+  "share_social_text": { "message": "Estou cultivando uma floresta com $handle$ enquanto navego. Participe em https://idleforest.com — funciona no piloto automático.", "description": "share.social_text", "placeholders": { "handle": { "content": "$1$" } } },
   "planting_inactiveMessage": { "message": "Idle Forest está inativo. Ative-o para começar a cultivar sua floresta!", "description": "planting.inactiveMessage" },
   "planting_growingMessage": { "message": "Cultivando sementes enquanto você navega...", "description": "planting.growingMessage" },
   "teamCreation_title": { "message": "Criar uma Equipe", "description": "teamCreation.title" },
@@ -112,10 +112,10 @@
   "auth_sending": { "message": "Enviando...", "description": "auth.sending" },
   "auth_checkEmailReset": { "message": "Verifique seu e-mail para o link de redefinição de senha.", "description": "auth.checkEmailReset" },
   "promo_signup_title": {
-    "message": "Ganhe uma Árvore Grátis!"
+    "message": "Comece a plantar no piloto automático"
   },
   "promo_signup_description": {
-    "message": "Cadastre-se agora e plantaremos sua primeira árvore de graça."
+    "message": "Cadastre-se para começar a plantar no piloto automático. Plantaremos sua primeira árvore."
   },
   "promo_referral_title": {
     "message": "Aumente sua Floresta Mais Rápido!"
